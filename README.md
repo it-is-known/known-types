@@ -167,18 +167,18 @@ Crate (Feature) | Version | Usage | Summary
 ## 👨‍💻 Development
 
 ```bash
-git clone https://github.com/known-facts/known-types.git
+git clone https://github.com/it-is-known/known-types.git
 ```
 
 ---
 
-[![Share on X](https://img.shields.io/badge/share%20on-x-03A9F4?logo=x)](https://x.com/intent/post?url=https://github.com/known-facts/known-types&text=Known%20Types)
-[![Share on Reddit](https://img.shields.io/badge/share%20on-reddit-red?logo=reddit)](https://reddit.com/submit?url=https://github.com/known-facts/known-types&title=Known%20Types)
-[![Share on Hacker News](https://img.shields.io/badge/share%20on-hn-orange?logo=ycombinator)](https://news.ycombinator.com/submitlink?u=https://github.com/known-facts/known-types&t=Known%20Types)
-[![Share on Facebook](https://img.shields.io/badge/share%20on-fb-1976D2?logo=facebook)](https://www.facebook.com/sharer/sharer.php?u=https://github.com/known-facts/known-types)
-[![Share on LinkedIn](https://img.shields.io/badge/share%20on-linkedin-3949AB?logo=linkedin)](https://www.linkedin.com/sharing/share-offsite/?url=https://github.com/known-facts/known-types)
+[![Share on X](https://img.shields.io/badge/share%20on-x-03A9F4?logo=x)](https://x.com/intent/post?url=https://github.com/it-is-known/known-types&text=Known%20Types)
+[![Share on Reddit](https://img.shields.io/badge/share%20on-reddit-red?logo=reddit)](https://reddit.com/submit?url=https://github.com/it-is-known/known-types&title=Known%20Types)
+[![Share on Hacker News](https://img.shields.io/badge/share%20on-hn-orange?logo=ycombinator)](https://news.ycombinator.com/submitlink?u=https://github.com/it-is-known/known-types&t=Known%20Types)
+[![Share on Facebook](https://img.shields.io/badge/share%20on-fb-1976D2?logo=facebook)](https://www.facebook.com/sharer/sharer.php?u=https://github.com/it-is-known/known-types)
+[![Share on LinkedIn](https://img.shields.io/badge/share%20on-linkedin-3949AB?logo=linkedin)](https://www.linkedin.com/sharing/share-offsite/?url=https://github.com/it-is-known/known-types)
 
-[feature flags]: https://github.com/known-facts/known-types/blob/master/lib/known-types/Cargo.toml
+[feature flags]: https://github.com/it-is-known/known-types/blob/master/lib/known-types/Cargo.toml
 [naming conventions]: https://rust-lang.github.io/api-guidelines/naming.html
 
 [bincode]: https://crates.io/crates/bincode
@@ -187,14 +187,14 @@ git clone https://github.com/known-facts/known-types.git
 [rasn]: https://crates.io/crates/rasn
 [serde]: https://crates.io/crates/serde
 
-[known-types]: https://github.com/known-facts/known-types/tree/master/lib/known-types
-[known-types-anthropic]: https://github.com/known-facts/known-types/tree/master/lib/known-types-anthropic
-[known-types-google]: https://github.com/known-facts/known-types/tree/master/lib/known-types-google
-[known-types-graphql]: https://github.com/known-facts/known-types/tree/master/lib/known-types-graphql
-[known-types-ietf]: https://github.com/known-facts/known-types/tree/master/lib/known-types-ietf
-[known-types-nostr]: https://github.com/known-facts/known-types/tree/master/lib/known-types-nostr
-[known-types-openai]: https://github.com/known-facts/known-types/tree/master/lib/known-types-openai
-[known-types-pypi]: https://github.com/known-facts/known-types/tree/master/lib/known-types-pypi
-[known-types-rubygems]: https://github.com/known-facts/known-types/tree/master/lib/known-types-rubygems
-[known-types-w3c]: https://github.com/known-facts/known-types/tree/master/lib/known-types-w3c
-[known-types-x]: https://github.com/known-facts/known-types/tree/master/lib/known-types-x
+[known-types]: https://github.com/it-is-known/known-types/tree/master/lib/known-types
+[known-types-anthropic]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-anthropic
+[known-types-google]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-google
+[known-types-graphql]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-graphql
+[known-types-ietf]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-ietf
+[known-types-nostr]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-nostr
+[known-types-openai]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-openai
+[known-types-pypi]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-pypi
+[known-types-rubygems]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-rubygems
+[known-types-w3c]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-w3c
+[known-types-x]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-x
