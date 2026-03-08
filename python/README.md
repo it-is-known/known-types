@@ -6,6 +6,16 @@
 
 Well-known types for Python.
 
+## 👉 Examples
+
+### Importing well-known types
+
+```python
+from known_types.github import User
+from known_types.luma import Calendar, Event, Profile, User
+from known_types.twitterapi import UserInfo
+```
+
 ## 👨‍💻 Development
 
 ```bash
