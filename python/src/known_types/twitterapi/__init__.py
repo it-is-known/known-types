@@ -1,3 +1,5 @@
 # This is free and unencumbered software released into the public domain.
 
-from .twitterapi import *
+from .follow import *
+from .tweet import *
+from .user import *
