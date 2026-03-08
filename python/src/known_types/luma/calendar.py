@@ -1,5 +1,7 @@
 # This is free and unencumbered software released into the public domain.
 
-from .github import *
-from .luma import *
-from .twitterapi import *
+from pydantic import BaseModel
+
+# TODO
+class Calendar(BaseModel):
+    pass
