@@ -2,7 +2,8 @@
 
 [![License](https://img.shields.io/badge/license-Public%20Domain-blue.svg)](https://unlicense.org)
 [![Package on Crates.io](https://img.shields.io/crates/v/known-types)](https://crates.io/crates/known-types)
-[![Package on PyPI](https://img.shields.io/pypi/v/known-types)](https://pypi.org/project/known-types/)
+[![Package on PyPI](https://img.shields.io/pypi/v/known-types)](https://pypi.org/project/known-types)
+[![Package on RubyGems](https://img.shields.io/gem/v/known-types)](https://rubygems.org/gems/known-types)
 
 Well-known types.
 
@@ -18,6 +19,13 @@ cargo add known-types
 
 ```bash
 pip install -U known-types
+```
+
+### Installation from RubyGems
+
+```bash
+gem install known-types
+bundle add known-types
 ```
 
 ## 👨‍💻 Development
