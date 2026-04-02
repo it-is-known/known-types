@@ -5,7 +5,7 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from .calendar import CalendarInfo
+from .calendar_info import CalendarInfo
 from .event_info import EventInfo
 from .user import User
 
