@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from .event_info import EventInfo
 from .user import User
@@ -62,13 +62,13 @@ class CalendarEvent(BaseModel):
     cover_image: Any  # { "colors": [ "#f5f0e8", "#c42b2a", "#744bf7", "#c4f91c" ], "palette": { "neutral": [ { "color": "#f5f0e8", "percentage": 64.42 } ], "vibrant": [ { "color": "#c42b2a", "percentage": 3.7 }, { "color": "#744bf7", "percentage": 0.18 }, { "color": "#c4f91c", "percentage": 0.04 } ] } },
     calendar: CalendarInfo
     start_at: datetime  # "2026-04-01T11:30:00.000Z",
-    hosts: list[User]
+    hosts: list[User] = Field(default_factory=list)
     guest_count: int  # 192,
     ticket_count: int  # 192,
     ticket_info: dict[
         str, Any
     ]  # { "price": null, "is_free": true, "max_price": null, "is_sold_out": true, "spots_remaining": 0, "is_near_capacity": false, "require_approval": false, "currency_info": null },
-    featured_guests: list[User]
+    featured_guests: list[User] = Field(default_factory=list)
     manager_info: str | None = None  # null,
     guest_info: str | None = None  # null,
     host_info: str | None = None  # null,
@@ -80,4 +80,4 @@ class CalendarEvent(BaseModel):
     platform: str  # "luma",
     status: str  # "approved",
     submitted_by_user_api_id: str  # "usr-9Xe6WZFxIvTzAMK",
-    tags: list[Any]  # []
+    tags: list[Any] = Field(default_factory=list)  # []

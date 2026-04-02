@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from .calendar import CalendarInfo
 from .event_info import EventInfo
@@ -19,32 +19,32 @@ class Event(BaseModel):
     coupon: str | None = None  # null,
     google_measurement_id: str | None = None  # null,
     stripe_account_id: str | None = None  # null,
-    payment_methods: list[Any] = []  # [],
+    payment_methods: list[Any] = Field(default_factory=list)  # [],
     event: EventInfo
     start_at: datetime  # "2026-04-01T22:00:00.000Z",
     guest_data: dict[
         str, Any
     ]  # { "email": null, "name": null, "ticket_key": null, "approval_status": null, "proxy_key": null, "event_tickets": [], "payments": [] },
-    featured_guests: list[User] = []
+    featured_guests: list[User] = Field(default_factory=list)
     has_available_ticket_types: bool  # true,
     refund_policy: str | None = None  # null,
     guest_count: int  # 95,
     ticket_count: int  # 95,
-    hosts: list[User] = []
+    hosts: list[User] = Field(default_factory=list)
     referred_by: str | None = None  # null,
     cover_image: dict[
         str, Any
     ]  # { "colors": ["#faf4f0", "#8dbfd8", "#d6482b"], "palette": { "neutral": [ { "color": "#faf4f0", "percentage": 48.29 } ], "vibrant": [ { "color": "#d6482b", "percentage": 3.18 }, { "color": "#8dbfd8", "percentage": 3.33 } ] } },
     sessions: list[Any]  # [],
-    ticket_types: list[
-        dict[str, Any]
-    ] = []  # [ { "api_id": "evtticktyp-o4ZnHU7EckO74HD", "cents": null, "currency": null, "description": null, "ethereum_token_requirements": [], "event_api_id": "evt-ZiAqg9LRqhPjDho", "is_flexible": false, "is_hidden": false, "max_capacity": null, "membership_restriction": null, "min_cents": null, "position": "8", "name": "Standard", "require_approval": false, "type": "free", "valid_end_at": null, "valid_start_at": null, "num_tickets_registered": 95, "currency_info": null, "num_guests": 95, "spots_remaining": null, "is_disabled": false } ],
-    featured_infos: list[
-        dict[str, Any]
-    ] = []  # [ { "type": "calendar", "avatar_url": "https://images.lumacdn.com/calendars/9k/5501eea1-5914-4a19-9658-305602cf7147.png", "name": "OpenClaw Meetups", "path": "/claw", "calendar_api_id": "cal-iOipAs7mv59Hbuz", "calendar_type": "calendar_global" } ],
-    categories: list[
-        dict[str, Any]
-    ] = []  # [ { "api_id": "cat-ai", "description": "Join a hackathon, learn about LLMs and prompt engineering, or connect with other AI practitioners.", "event_count": 3381, "hero_image_desktop_url": "https://images.lumacdn.com/discovery/ai-square.png", "icon_url": "https://images.lumacdn.com/discovery/ai-icon.png", "name": "AI", "page_title": "AI Events", "simple_icon_url": "https://images.lumacdn.com/discovery/ai-icon-simple.png", "slug": "ai", "social_image_url": "https://images.lumacdn.com/discovery/ai-social.png", "subscriber_count": 59774, "tint_color": "#dd7aa4" } ],
+    ticket_types: list[dict[str, Any]] = Field(
+        default_factory=list
+    )  # [ { "api_id": "evtticktyp-o4ZnHU7EckO74HD", "cents": null, "currency": null, "description": null, "ethereum_token_requirements": [], "event_api_id": "evt-ZiAqg9LRqhPjDho", "is_flexible": false, "is_hidden": false, "max_capacity": null, "membership_restriction": null, "min_cents": null, "position": "8", "name": "Standard", "require_approval": false, "type": "free", "valid_end_at": null, "valid_start_at": null, "num_tickets_registered": 95, "currency_info": null, "num_guests": 95, "spots_remaining": null, "is_disabled": false } ],
+    featured_infos: list[dict[str, Any]] = Field(
+        default_factory=list
+    )  # [ { "type": "calendar", "avatar_url": "https://images.lumacdn.com/calendars/9k/5501eea1-5914-4a19-9658-305602cf7147.png", "name": "OpenClaw Meetups", "path": "/claw", "calendar_api_id": "cal-iOipAs7mv59Hbuz", "calendar_type": "calendar_global" } ],
+    categories: list[dict[str, Any]] = Field(
+        default_factory=list
+    )  # [ { "api_id": "cat-ai", "description": "Join a hackathon, learn about LLMs and prompt engineering, or connect with other AI practitioners.", "event_count": 3381, "hero_image_desktop_url": "https://images.lumacdn.com/discovery/ai-square.png", "icon_url": "https://images.lumacdn.com/discovery/ai-icon.png", "name": "AI", "page_title": "AI Events", "simple_icon_url": "https://images.lumacdn.com/discovery/ai-icon-simple.png", "slug": "ai", "social_image_url": "https://images.lumacdn.com/discovery/ai-social.png", "subscriber_count": 59774, "tint_color": "#dd7aa4" } ],
     ticket_info: dict[
         str, Any
     ]  # { "price": null, "is_free": true, "max_price": null, "is_sold_out": false, "spots_remaining": 5, "is_near_capacity": true, "require_approval": false, "currency_info": null },
@@ -66,12 +66,12 @@ class Event(BaseModel):
     name_requirement: str  # "full-name",
     phone_number_requirement: str | None = None  # null,
     solana_address_requirement: str | None = None  # null,
-    registration_questions: list[Any] = []  # [],
+    registration_questions: list[Any] = Field(default_factory=list)  # [],
     is_flagged: bool  # false,
     is_primary_calendar_admin: bool  # false,
     show_unlock_code_option: bool  # false,
     has_multiple_ticket_types: bool  # false,
-    membership_tiers: list[Any] = []  # [],
+    membership_tiers: list[Any] = Field(default_factory=list)  # [],
     membership_info: str | None = None  # null,
     waitlist_active: bool  # false,
     route: str | None = None  # null,
