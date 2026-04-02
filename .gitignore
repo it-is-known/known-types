@@ -17,3 +17,6 @@
 /Cargo.lock
 /rust-toolchain
 /target
+
+# Python artifacts
+**/__pycache__/
