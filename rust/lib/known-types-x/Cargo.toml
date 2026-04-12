@@ -29,6 +29,9 @@ std = [
 unstable = []
 
 [dependencies]
+derive_more = { version = "2", default-features = false, features = ["as_ref", "display", "from_str"] }
+
+# Integrations:
 bincode = { workspace = true, optional = true }
 borsh = { workspace = true, optional = true }
 musli = { workspace = true, optional = true }
