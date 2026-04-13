@@ -29,7 +29,12 @@ std = [
 unstable = []
 
 [dependencies]
-derive_more = { version = "2", default-features = false, features = ["as_ref", "display", "from_str"] }
+derive_more = { version = "2", default-features = false, features = [
+    "as_ref",
+    "display",
+    "from",
+    "from_str",
+] }
 
 # Integrations:
 bincode = { workspace = true, optional = true }
