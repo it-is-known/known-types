@@ -299,6 +299,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "known-types-github"
+version = "0.1.0"
+dependencies = [
+ "bincode",
+ "borsh",
+ "derive_more",
+ "musli",
+ "rasn",
+ "serde",
+]
+
+[[package]]
 name = "known-types-google"
 version = "0.1.0"
 dependencies = [
@@ -321,11 +333,59 @@ dependencies = [
 ]
 
 [[package]]
+name = "known-types-gravatar"
+version = "0.1.0"
+dependencies = [
+ "bincode",
+ "borsh",
+ "derive_more",
+ "musli",
+ "rasn",
+ "serde",
+]
+
+[[package]]
 name = "known-types-ietf"
 version = "0.1.0"
 dependencies = [
  "bincode",
  "borsh",
+ "musli",
+ "rasn",
+ "serde",
+]
+
+[[package]]
+name = "known-types-instagram"
+version = "0.1.0"
+dependencies = [
+ "bincode",
+ "borsh",
+ "derive_more",
+ "musli",
+ "rasn",
+ "serde",
+]
+
+[[package]]
+name = "known-types-linkedin"
+version = "0.1.0"
+dependencies = [
+ "bincode",
+ "borsh",
+ "derive_more",
+ "musli",
+ "rasn",
+ "serde",
+]
+
+[[package]]
+name = "known-types-luma"
+version = "0.1.0"
+dependencies = [
+ "bincode",
+ "borsh",
+ "derive_more",
  "musli",
  "rasn",
  "serde",

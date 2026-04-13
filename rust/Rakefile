@@ -18,7 +18,7 @@ namespace :readme do
   end
 
   task :cargo_toml do
-    crate_names.each { |crate_name| puts "#{crate_name} = \"0.1\"" }
+    crate_names.each { |crate_name| puts "#{crate_name} = \"0\"" }
   end
 
   task :rust_use do
@@ -26,7 +26,7 @@ namespace :readme do
   end
 
   task :rust_use_custom do
-    crate_names.each { |crate_name| puts "#{crate_name} = { version = \"0.1\", default-features = false, features = [\"serde\"] }" }
+    crate_names.each { |crate_name| puts "#{crate_name} = { version = \"0\", default-features = false, features = [\"serde\"] }" }
   end
 
   task :table do
@@ -42,5 +42,9 @@ namespace :readme do
         crate_summary,
       ].join(' | ')
     end
+  end
+
+  task :links do
+    crate_names.each { |crate_name| puts "[#{crate_name}]: https://github.com/it-is-known/known-types/tree/master/rust/lib/#{crate_name}" }
   end
 end

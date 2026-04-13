@@ -34,9 +34,14 @@ cargo add known-types
 ```bash
 cargo add known-types
 cargo add known-types-anthropic
+cargo add known-types-github
 cargo add known-types-google
 cargo add known-types-graphql
+cargo add known-types-gravatar
 cargo add known-types-ietf
+cargo add known-types-instagram
+cargo add known-types-linkedin
+cargo add known-types-luma
 cargo add known-types-nostr
 cargo add known-types-openai
 cargo add known-types-pypi
@@ -51,7 +56,7 @@ cargo add known-types-x
 
 ```toml
 [dependencies]
-known-types = "0.1"
+known-types = "0"
 ```
 
 <details>
@@ -61,17 +66,22 @@ known-types = "0.1"
 
 ```toml
 [dependencies]
-known-types = "0.1"
-known-types-anthropic = "0.1"
-known-types-google = "0.1"
-known-types-graphql = "0.1"
-known-types-ietf = "0.1"
-known-types-nostr = "0.1"
-known-types-openai = "0.1"
-known-types-pypi = "0.1"
-known-types-rubygems = "0.1"
-known-types-w3c = "0.1"
-known-types-x = "0.1"
+known-types = "0"
+known-types-anthropic = "0"
+known-types-github = "0"
+known-types-google = "0"
+known-types-graphql = "0"
+known-types-gravatar = "0"
+known-types-ietf = "0"
+known-types-instagram = "0"
+known-types-linkedin = "0"
+known-types-luma = "0"
+known-types-nostr = "0"
+known-types-openai = "0"
+known-types-pypi = "0"
+known-types-rubygems = "0"
+known-types-w3c = "0"
+known-types-x = "0"
 ```
 
 </details>
@@ -80,7 +90,7 @@ known-types-x = "0.1"
 
 ```toml
 [dependencies]
-known-types = { version = "0.1", default-features = false, features = ["serde"] }
+known-types = { version = "0", default-features = false, features = ["serde"] }
 ```
 
 <details>
@@ -90,17 +100,22 @@ known-types = { version = "0.1", default-features = false, features = ["serde"] 
 
 ```toml
 [dependencies]
-known-types = { version = "0.1", default-features = false, features = ["serde"] }
-known-types-anthropic = { version = "0.1", default-features = false, features = ["serde"] }
-known-types-google = { version = "0.1", default-features = false, features = ["serde"] }
-known-types-graphql = { version = "0.1", default-features = false, features = ["serde"] }
-known-types-ietf = { version = "0.1", default-features = false, features = ["serde"] }
-known-types-nostr = { version = "0.1", default-features = false, features = ["serde"] }
-known-types-openai = { version = "0.1", default-features = false, features = ["serde"] }
-known-types-pypi = { version = "0.1", default-features = false, features = ["serde"] }
-known-types-rubygems = { version = "0.1", default-features = false, features = ["serde"] }
-known-types-w3c = { version = "0.1", default-features = false, features = ["serde"] }
-known-types-x = { version = "0.1", default-features = false, features = ["serde"] }
+known-types = { version = "0", default-features = false, features = ["serde"] }
+known-types-anthropic = { version = "0", default-features = false, features = ["serde"] }
+known-types-github = { version = "0", default-features = false, features = ["serde"] }
+known-types-google = { version = "0", default-features = false, features = ["serde"] }
+known-types-graphql = { version = "0", default-features = false, features = ["serde"] }
+known-types-gravatar = { version = "0", default-features = false, features = ["serde"] }
+known-types-ietf = { version = "0", default-features = false, features = ["serde"] }
+known-types-instagram = { version = "0", default-features = false, features = ["serde"] }
+known-types-linkedin = { version = "0", default-features = false, features = ["serde"] }
+known-types-luma = { version = "0", default-features = false, features = ["serde"] }
+known-types-nostr = { version = "0", default-features = false, features = ["serde"] }
+known-types-openai = { version = "0", default-features = false, features = ["serde"] }
+known-types-pypi = { version = "0", default-features = false, features = ["serde"] }
+known-types-rubygems = { version = "0", default-features = false, features = ["serde"] }
+known-types-w3c = { version = "0", default-features = false, features = ["serde"] }
+known-types-x = { version = "0", default-features = false, features = ["serde"] }
 ```
 
 </details>
@@ -121,9 +136,14 @@ use known_types;
 ```rust
 use known_types;
 use known_types_anthropic;
+use known_types_github;
 use known_types_google;
 use known_types_graphql;
+use known_types_gravatar;
 use known_types_ietf;
+use known_types_instagram;
+use known_types_linkedin;
+use known_types_luma;
 use known_types_nostr;
 use known_types_openai;
 use known_types_pypi;
@@ -142,9 +162,14 @@ Crate | Version | Docs | Summary
 :--- | :--- | :--- | :---
 [known-types] | [![known-types](https://img.shields.io/crates/v/known-types)](https://crates.io/crates/known-types) | [![known-types](https://docs.rs/known-types/badge.svg)](https://docs.rs/known-types/) | Well-known types.
 [known-types-anthropic] | [![known-types-anthropic](https://img.shields.io/crates/v/known-types-anthropic)](https://crates.io/crates/known-types-anthropic) | [![known-types-anthropic](https://docs.rs/known-types-anthropic/badge.svg)](https://docs.rs/known-types-anthropic/) | Well-known types for Anthropic APIs.
+[known-types-github] | [![known-types-github](https://img.shields.io/crates/v/known-types-github)](https://crates.io/crates/known-types-github) | [![known-types-github](https://docs.rs/known-types-github/badge.svg)](https://docs.rs/known-types-github/) | Well-known types for GitHub APIs.
 [known-types-google] | [![known-types-google](https://img.shields.io/crates/v/known-types-google)](https://crates.io/crates/known-types-google) | [![known-types-google](https://docs.rs/known-types-google/badge.svg)](https://docs.rs/known-types-google/) | Well-known types for Google APIs.
 [known-types-graphql] | [![known-types-graphql](https://img.shields.io/crates/v/known-types-graphql)](https://crates.io/crates/known-types-graphql) | [![known-types-graphql](https://docs.rs/known-types-graphql/badge.svg)](https://docs.rs/known-types-graphql/) | Well-known types for GraphQL specifications.
+[known-types-gravatar] | [![known-types-gravatar](https://img.shields.io/crates/v/known-types-gravatar)](https://crates.io/crates/known-types-gravatar) | [![known-types-gravatar](https://docs.rs/known-types-gravatar/badge.svg)](https://docs.rs/known-types-gravatar/) | Well-known types for Gravatar APIs.
 [known-types-ietf] | [![known-types-ietf](https://img.shields.io/crates/v/known-types-ietf)](https://crates.io/crates/known-types-ietf) | [![known-types-ietf](https://docs.rs/known-types-ietf/badge.svg)](https://docs.rs/known-types-ietf/) | Well-known types for IETF specifications.
+[known-types-instagram] | [![known-types-instagram](https://img.shields.io/crates/v/known-types-instagram)](https://crates.io/crates/known-types-instagram) | [![known-types-instagram](https://docs.rs/known-types-instagram/badge.svg)](https://docs.rs/known-types-instagram/) | Well-known types for Instagram APIs.
+[known-types-linkedin] | [![known-types-linkedin](https://img.shields.io/crates/v/known-types-linkedin)](https://crates.io/crates/known-types-linkedin) | [![known-types-linkedin](https://docs.rs/known-types-linkedin/badge.svg)](https://docs.rs/known-types-linkedin/) | Well-known types for LinkedIn APIs.
+[known-types-luma] | [![known-types-luma](https://img.shields.io/crates/v/known-types-luma)](https://crates.io/crates/known-types-luma) | [![known-types-luma](https://docs.rs/known-types-luma/badge.svg)](https://docs.rs/known-types-luma/) | Well-known types for Luma APIs.
 [known-types-nostr] | [![known-types-nostr](https://img.shields.io/crates/v/known-types-nostr)](https://crates.io/crates/known-types-nostr) | [![known-types-nostr](https://docs.rs/known-types-nostr/badge.svg)](https://docs.rs/known-types-nostr/) | Well-known types for the Nostr protocol.
 [known-types-openai] | [![known-types-openai](https://img.shields.io/crates/v/known-types-openai)](https://crates.io/crates/known-types-openai) | [![known-types-openai](https://docs.rs/known-types-openai/badge.svg)](https://docs.rs/known-types-openai/) | Well-known types for OpenAI APIs.
 [known-types-pypi] | [![known-types-pypi](https://img.shields.io/crates/v/known-types-pypi)](https://crates.io/crates/known-types-pypi) | [![known-types-pypi](https://docs.rs/known-types-pypi/badge.svg)](https://docs.rs/known-types-pypi/) | Well-known types for Python Package Index (PyPI) APIs.
@@ -187,14 +212,19 @@ git clone https://github.com/it-is-known/known-types.git
 [rasn]: https://crates.io/crates/rasn
 [serde]: https://crates.io/crates/serde
 
-[known-types]: https://github.com/it-is-known/known-types/tree/master/lib/known-types
-[known-types-anthropic]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-anthropic
-[known-types-google]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-google
-[known-types-graphql]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-graphql
-[known-types-ietf]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-ietf
-[known-types-nostr]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-nostr
-[known-types-openai]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-openai
-[known-types-pypi]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-pypi
-[known-types-rubygems]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-rubygems
-[known-types-w3c]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-w3c
-[known-types-x]: https://github.com/it-is-known/known-types/tree/master/lib/known-types-x
+[known-types]: https://github.com/it-is-known/known-types/tree/master/rust/lib/known-types
+[known-types-anthropic]: https://github.com/it-is-known/known-types/tree/master/rust/lib/known-types-anthropic
+[known-types-github]: https://github.com/it-is-known/known-types/tree/master/rust/lib/known-types-github
+[known-types-google]: https://github.com/it-is-known/known-types/tree/master/rust/lib/known-types-google
+[known-types-graphql]: https://github.com/it-is-known/known-types/tree/master/rust/lib/known-types-graphql
+[known-types-gravatar]: https://github.com/it-is-known/known-types/tree/master/rust/lib/known-types-gravatar
+[known-types-ietf]: https://github.com/it-is-known/known-types/tree/master/rust/lib/known-types-ietf
+[known-types-instagram]: https://github.com/it-is-known/known-types/tree/master/rust/lib/known-types-instagram
+[known-types-linkedin]: https://github.com/it-is-known/known-types/tree/master/rust/lib/known-types-linkedin
+[known-types-luma]: https://github.com/it-is-known/known-types/tree/master/rust/lib/known-types-luma
+[known-types-nostr]: https://github.com/it-is-known/known-types/tree/master/rust/lib/known-types-nostr
+[known-types-openai]: https://github.com/it-is-known/known-types/tree/master/rust/lib/known-types-openai
+[known-types-pypi]: https://github.com/it-is-known/known-types/tree/master/rust/lib/known-types-pypi
+[known-types-rubygems]: https://github.com/it-is-known/known-types/tree/master/rust/lib/known-types-rubygems
+[known-types-w3c]: https://github.com/it-is-known/known-types/tree/master/rust/lib/known-types-w3c
+[known-types-x]: https://github.com/it-is-known/known-types/tree/master/rust/lib/known-types-x

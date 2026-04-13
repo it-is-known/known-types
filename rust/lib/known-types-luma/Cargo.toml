@@ -1,16 +1,16 @@
 [package]
-name = "known-types-x"
+name = "known-types-luma"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
 #rust-version.workspace = true
-description = "Well-known types for X (formerly Twitter) APIs."
+description = "Well-known types for Luma APIs."
 #documentation.workspace = true
 readme.workspace = true
 homepage.workspace = true
 repository.workspace = true
 license.workspace = true
-keywords = ["known-types", "x", "twitter", "api", "serde"]
+keywords = ["known-types", "luma", "api", "serde"]
 categories.workspace = true
 publish.workspace = true
 
