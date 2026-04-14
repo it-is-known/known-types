@@ -28,6 +28,9 @@ std = [
 ]
 unstable = []
 
+# Integrations:
+async-graphql = ["dep:async-graphql"]
+
 [dependencies]
 derive_more = { workspace = true, features = [
     "as_ref",
@@ -37,6 +40,7 @@ derive_more = { workspace = true, features = [
 ] }
 
 # Integrations:
+async-graphql = { workspace = true, optional = true }
 bincode = { workspace = true, optional = true }
 borsh = { workspace = true, optional = true }
 musli = { workspace = true, optional = true }
