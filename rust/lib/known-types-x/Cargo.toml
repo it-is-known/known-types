@@ -30,6 +30,7 @@ unstable = []
 
 # Integrations:
 async-graphql = ["dep:async-graphql"]
+libsql = ["dep:libsql"]
 
 [dependencies]
 derive_more = { workspace = true, features = [
@@ -43,6 +44,7 @@ derive_more = { workspace = true, features = [
 async-graphql = { workspace = true, optional = true }
 bincode = { workspace = true, optional = true }
 borsh = { workspace = true, optional = true }
+libsql = { workspace = true, optional = true }
 musli = { workspace = true, optional = true }
 rasn = { workspace = true, optional = true }
 serde = { workspace = true, optional = true }

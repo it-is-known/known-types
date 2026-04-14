@@ -23,3 +23,10 @@ impl async_graphql::connection::CursorType for XHandle {
         self.0.clone()
     }
 }
+
+#[cfg(feature = "libsql")]
+impl libsql::params::IntoValue for XHandle {
+    fn into_value(self) -> libsql::Result<libsql::Value> {
+        Ok(libsql::Value::Text(self.0))
+    }
+}
