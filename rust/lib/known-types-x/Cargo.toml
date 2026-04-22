@@ -31,6 +31,10 @@ unstable = []
 # Integrations:
 async-graphql = ["dep:async-graphql"]
 libsql = ["dep:libsql"]
+sqlx = ["dep:sqlx", "std"]
+sqlx-mysql = ["sqlx", "sqlx/mysql"]
+sqlx-postgres = ["sqlx", "sqlx/postgres"]
+sqlx-sqlite = ["sqlx", "sqlx/sqlite"]
 
 [dependencies]
 derive_more = { workspace = true, features = [
@@ -48,5 +52,6 @@ libsql = { workspace = true, optional = true }
 musli = { workspace = true, optional = true }
 rasn = { workspace = true, optional = true }
 serde = { workspace = true, optional = true }
+sqlx = { workspace = true, optional = true }
 
 [dev-dependencies]

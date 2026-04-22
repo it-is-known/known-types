@@ -37,3 +37,24 @@ impl Into<libsql::Value> for &XHandle {
         libsql::Value::Text(self.0.clone())
     }
 }
+
+#[cfg(feature = "sqlx-postgres")]
+#[cfg_attr(docsrs, doc(cfg(feature = "sqlx-postgres")))]
+impl<'q> sqlx::Encode<'q, sqlx::Postgres> for XHandle {
+    fn encode_by_ref(
+        &self,
+        buf: &mut <sqlx::Postgres as sqlx::Database>::ArgumentBuffer<'q>,
+    ) -> Result<sqlx::encode::IsNull, sqlx::error::BoxDynError> {
+        sqlx::Encode::<'_, sqlx::Postgres>::encode_by_ref(&self.0.as_str(), buf)
+    }
+
+    #[inline]
+    fn produces(&self) -> Option<<sqlx::Postgres as sqlx::Database>::TypeInfo> {
+        <&str as sqlx::Encode<'_, sqlx::Postgres>>::produces(&self.0.as_str())
+    }
+
+    #[inline]
+    fn size_hint(&self) -> usize {
+        <&str as sqlx::Encode<'_, sqlx::Postgres>>::size_hint(&self.0.as_str())
+    }
+}
