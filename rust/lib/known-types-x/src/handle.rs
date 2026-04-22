@@ -38,6 +38,21 @@ impl Into<libsql::Value> for &XHandle {
     }
 }
 
+#[cfg(feature = "sqlx")]
+#[cfg_attr(docsrs, doc(cfg(feature = "sqlx")))]
+impl<'r, DB> sqlx::Decode<'r, DB> for XHandle
+where
+    DB: sqlx::Database,
+    for<'x> &'x str: sqlx::Decode<'x, DB> + sqlx::Type<DB>,
+{
+    fn decode(
+        input: <DB as sqlx::Database>::ValueRef<'r>,
+    ) -> Result<Self, sqlx::error::BoxDynError> {
+        let input = <&str as sqlx::Decode<DB>>::decode(input)?;
+        Ok(Self::from(input))
+    }
+}
+
 #[cfg(feature = "sqlx-postgres")]
 #[cfg_attr(docsrs, doc(cfg(feature = "sqlx-postgres")))]
 impl sqlx::Type<sqlx::Postgres> for XHandle
