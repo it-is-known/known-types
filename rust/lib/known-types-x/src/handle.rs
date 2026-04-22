@@ -40,6 +40,23 @@ impl Into<libsql::Value> for &XHandle {
 
 #[cfg(feature = "sqlx-postgres")]
 #[cfg_attr(docsrs, doc(cfg(feature = "sqlx-postgres")))]
+impl sqlx::Type<sqlx::Postgres> for XHandle
+where
+    for<'x> &'x str: sqlx::Type<sqlx::Postgres>,
+{
+    #[inline]
+    fn type_info() -> <sqlx::Postgres as sqlx::Database>::TypeInfo {
+        <String as sqlx::Type<sqlx::Postgres>>::type_info()
+    }
+
+    #[inline]
+    fn compatible(ty: &<sqlx::Postgres as sqlx::Database>::TypeInfo) -> bool {
+        <String as sqlx::Type<sqlx::Postgres>>::compatible(ty)
+    }
+}
+
+#[cfg(feature = "sqlx-postgres")]
+#[cfg_attr(docsrs, doc(cfg(feature = "sqlx-postgres")))]
 impl<'q> sqlx::Encode<'q, sqlx::Postgres> for XHandle {
     fn encode_by_ref(
         &self,
