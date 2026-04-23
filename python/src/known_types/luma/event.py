@@ -68,7 +68,7 @@ class Event(BaseModel):
     solana_address_requirement: str | None = None  # null,
     registration_questions: list[Any] = Field(default_factory=list)  # [],
     is_flagged: bool  # false,
-    is_primary_calendar_admin: bool  # false,
+    is_primary_calendar_admin: bool | None = None  # false,
     show_unlock_code_option: bool  # false,
     has_multiple_ticket_types: bool  # false,
     membership_tiers: list[Any] = Field(default_factory=list)  # [],
