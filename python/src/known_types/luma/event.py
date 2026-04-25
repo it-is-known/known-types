@@ -27,7 +27,7 @@ class Event(BaseModel):
     ]  # { "email": null, "name": null, "ticket_key": null, "approval_status": null, "proxy_key": null, "event_tickets": [], "payments": [] },
     featured_guests: list[User] = Field(default_factory=list)
     has_available_ticket_types: bool  # true,
-    refund_policy: str | None = None  # null,
+    refund_policy: dict[str, Any] | None = None  # null,
     guest_count: int  # 95,
     ticket_count: int  # 95,
     hosts: list[User] = Field(default_factory=list)
