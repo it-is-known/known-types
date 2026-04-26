@@ -14,13 +14,13 @@ pub struct LinkedinHandle(String);
 
 impl From<String> for LinkedinHandle {
     fn from(input: String) -> Self {
-        Self((&input).into())
+        Self::from_str(&input).expect("should be a valid Linkedin handle")
     }
 }
 
 impl From<&str> for LinkedinHandle {
     fn from(input: &str) -> Self {
-        Self(input.parse().expect("should be a valid Linkedin handle"))
+        Self::from_str(input).expect("should be a valid Linkedin handle")
     }
 }
 
@@ -38,4 +38,45 @@ impl FromStr for LinkedinHandle {
             .into_owned();
         Ok(Self(decoded))
     }
+}
+
+#[test]
+fn test_linkedin_handle_from_str() {
+    assert_eq!(
+        LinkedinHandle::from_str("foobar"),
+        Ok(LinkedinHandle("foobar".into()))
+    );
+}
+
+#[test]
+fn test_linkedin_handle_parse_ascii() {
+    assert_eq!(
+        LinkedinHandle::from_str("foobar"),
+        Ok(LinkedinHandle("foobar".into()))
+    );
+}
+
+#[test]
+fn test_linkedin_handle_parse_encoded() {
+    assert_eq!(
+        LinkedinHandle::from_str("bj%C3%B6rn"),
+        Ok(LinkedinHandle("björn".into()))
+    );
+}
+
+#[test]
+fn test_linkedin_handle_from_str_encoded() {
+    assert_eq!(
+        LinkedinHandle::from("bj%C3%B6rn"),
+        LinkedinHandle("björn".into())
+    );
+}
+
+#[test]
+fn test_linkedin_handle_from_string_encoded() {
+    use crate::prelude::ToString;
+    assert_eq!(
+        LinkedinHandle::from("bj%C3%B6rn".to_string()),
+        LinkedinHandle("björn".into())
+    );
 }
