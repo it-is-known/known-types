@@ -1036,6 +1036,7 @@ dependencies = [
  "borsh",
  "derive_more",
  "musli",
+ "percent-encoding",
  "rasn",
  "serde",
 ]

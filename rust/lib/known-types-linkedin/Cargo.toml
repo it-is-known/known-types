@@ -35,6 +35,7 @@ derive_more = { workspace = true, features = [
     "from",
     "from_str",
 ] }
+percent-encoding = { workspace = true }
 
 # Integrations:
 bincode = { workspace = true, optional = true }
