@@ -3,20 +3,31 @@
 [![License](https://img.shields.io/badge/license-Public%20Domain-blue.svg)](https://unlicense.org)
 [![Compatibility](https://img.shields.io/badge/rust-1.85%2B-blue)](https://blog.rust-lang.org/2025/02/20/Rust-1.85.0/)
 [![Package](https://img.shields.io/crates/v/known-types)](https://crates.io/crates/known-types)
-[![Documentation](https://docs.rs/known-types/badge.svg)](https://docs.rs/known-types/)
+[![Documentation](https://docs.rs/known-types/badge.svg)](https://docs.rs/known-types)
 
-Well-known types for Rust.
+**Well-known types for Rust.**
+
+<sub>
+
+[[Features](#-features)] |
+[[Prerequisites](#%EF%B8%8F-prerequisites)] |
+[[Installation](#%EF%B8%8F-installation)] |
+[[Examples](#-examples)] |
+[[Reference](#-reference)] |
+[[Development](#%E2%80%8D-development)]
+
+</sub>
 
 ## ✨ Features
 
 - Zero default dependencies, only optional [integrations](#integrations).
 - Supports opting out of any feature using comprehensive [feature flags].
 - Adheres to the Rust API Guidelines in its [naming conventions].
-- 100% free and unencumbered public domain software.
+- Cuts red tape: 100% free and unencumbered public domain software.
 
 ## 🛠️ Prerequisites
 
-- [Rust](https://rust-lang.org) 1.85+ (2024 edition)
+- [Rust] 1.85+ (2024 edition)
 
 ## ⬇️ Installation
 
@@ -52,7 +63,9 @@ cargo add known-types-x
 
 </details>
 
-### Installation in `Cargo.toml` (with all features enabled)
+### Installation in `Cargo.toml`
+
+Enable all default features:
 
 ```toml
 [dependencies]
@@ -86,7 +99,7 @@ known-types-x = "0"
 
 </details>
 
-### Installation in `Cargo.toml` (with only specific features enabled)
+Enable only specific features:
 
 ```toml
 [dependencies]
@@ -122,7 +135,7 @@ known-types-x = { version = "0", default-features = false, features = ["serde"] 
 
 ## 👉 Examples
 
-### Importing the library
+### Importing the Library
 
 ```rust
 use known_types;
@@ -155,6 +168,8 @@ use known_types_x;
 </details>
 
 ## 📚 Reference
+
+[docs.rs/known-types](https://docs.rs/known-types)
 
 ### Crates
 
@@ -189,6 +204,16 @@ Crate (Feature) | Version | Usage | Summary
 [serde] &nbsp;<sub>(`"serde"`)</sub> | 1 | [![serde](https://docs.rs/serde/badge.svg)](https://docs.rs/serde/) | Derives `serde::{Serialize, Deserialize}`
 <img width="220" height="1"/> | <img width="110" height="1"/> | <img width="100" height="1"/> | &nbsp;
 
+### See Also
+
+| Package | Crate | Docs
+| :------ | :---- | :---
+| [known-errors](https://github.com/it-is-known/known-errors) | [![Package](https://img.shields.io/crates/v/known-errors)](https://crates.io/crates/known-errors) | [![Documentation](https://img.shields.io/docsrs/known-errors?label=docs.rs)](https://docs.rs/known-errors)
+| [known-languages](https://github.com/it-is-known/known-languages) | [![Package](https://img.shields.io/crates/v/known-languages)](https://crates.io/crates/known-languages) | [![Documentation](https://img.shields.io/docsrs/known-languages?label=docs.rs)](https://docs.rs/known-languages)
+| [known-paths](https://github.com/it-is-known/known-paths) | [![Package](https://img.shields.io/crates/v/known-paths)](https://crates.io/crates/known-paths) | [![Documentation](https://img.shields.io/docsrs/known-paths?label=docs.rs)](https://docs.rs/known-paths)
+| [known-schemes](https://github.com/it-is-known/known-schemes) | [![Package](https://img.shields.io/crates/v/known-schemes)](https://crates.io/crates/known-schemes) | [![Documentation](https://img.shields.io/docsrs/known-schemes?label=docs.rs)](https://docs.rs/known-schemes)
+| [known-types](https://github.com/it-is-known/known-types) | [![Package](https://img.shields.io/crates/v/known-types)](https://crates.io/crates/known-types) | [![Documentation](https://img.shields.io/docsrs/known-types?label=docs.rs)](https://docs.rs/known-types)
+
 ## 👨‍💻 Development
 
 ```bash
@@ -206,6 +231,7 @@ git clone https://github.com/it-is-known/known-types.git
 [feature flags]: https://github.com/it-is-known/known-types/blob/master/lib/known-types/Cargo.toml
 [naming conventions]: https://rust-lang.github.io/api-guidelines/naming.html
 
+[Rust]: https://rust-lang.org
 [bincode]: https://crates.io/crates/bincode
 [borsh]: https://crates.io/crates/borsh
 [musli]: https://crates.io/crates/musli
