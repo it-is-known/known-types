@@ -16,7 +16,9 @@ class CalendarInfo(BaseModel):
     api_id: str  # "cal-iOipAs7mv59Hbuz",
     avatar_url: str  # "https://images.lumacdn.com/calendars/9k/5501eea1-5914-4a19-9658-305602cf7147.png",
     coordinate: dict[str, float] | None = None  # null,
-    cover_image_url: str  # "https://images.lumacdn.com/calendar-cover-images/tr/e3e88858-4da4-475e-a60b-ef385fffdfda.png",
+    cover_image_url: str | None = (
+        None  # "https://images.lumacdn.com/calendar-cover-images/tr/e3e88858-4da4-475e-a60b-ef385fffdfda.png",
+    )
     description_short: str | None = (
         None  # "Discover community meetups for OpenClaw around the world.",
     )
