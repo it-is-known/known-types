@@ -13,7 +13,7 @@ class User(BaseModel):
     bio_short: str | None = None  # e.g. "Founder, ASIMOV Protocol. ex-NEAR Protocol"
     instagram_handle: str | None = None  # e.g. "arto.bendiken"
     is_verified: bool
-    last_online_at: datetime | None  # e.g. "2026-02-27T22:30:28.589Z"
+    last_online_at: datetime | None = None  # e.g. "2026-02-27T22:30:28.589Z"
     linkedin_handle: str | None = None  # e.g. "/in/arto"
     name: str  # e.g. "Arto Bendiken"
     tiktok_handle: str | None = None
