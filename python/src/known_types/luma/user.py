@@ -15,9 +15,9 @@ class User(BaseModel):
     is_verified: bool
     last_online_at: datetime | None = None  # e.g. "2026-02-27T22:30:28.589Z"
     linkedin_handle: str | None = None  # e.g. "/in/arto"
-    name: str  # e.g. "Arto Bendiken"
+    name: str | None = None  # e.g. "Arto Bendiken"
     tiktok_handle: str | None = None
-    timezone: str  # e.g. "America/Los_Angeles"
+    timezone: str | None = None  # e.g. "America/Los_Angeles"
     twitter_handle: str | None = None  # e.g. "bendiken"
     username: str | None = None  # e.g. "arto"
     website: str | None = None  # e.g. "https://ar.to"
