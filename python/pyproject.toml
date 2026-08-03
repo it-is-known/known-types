@@ -12,7 +12,7 @@ readme = "README.md"
 authors = [{ name = "Arto Bendiken", email = "arto@bendiken.net" }]
 license = "Unlicense"
 license-files = ["UNLICENSE"]
-version = "0.0.7"
+version = "0.0.8"
 
 requires-python = ">=3.10"
 dependencies = ["pydantic>=2.12"]
