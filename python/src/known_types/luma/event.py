@@ -54,7 +54,7 @@ class Event(BaseModel):
     guest_info: str | None = None  # null,
     host_info: str | None = None  # null,
     sold_out: bool  # false,
-    locale: str  # "en",
+    locale: str | None = None  # "en",
     theme_meta: dict[str, Any]  # { "theme": "legacy" },
     tint_color: str  # "#f8f4f0",
     can_register_for_multiple_tickets: bool  # false,
