@@ -939,7 +939,7 @@ checksum = "8f42a60cbdf9a97f5d2305f08a87dc4e09308d1276d28c869c684d7777685682"
 
 [[package]]
 name = "known-types"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -950,7 +950,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-anthropic"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -961,7 +961,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-facebook"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -973,7 +973,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-github"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -985,7 +985,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-google"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -996,7 +996,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-graphql"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -1007,7 +1007,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-gravatar"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -1019,7 +1019,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-ietf"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -1030,7 +1030,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-imdb"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -1041,7 +1041,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-instagram"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -1053,7 +1053,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-introco"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -1065,7 +1065,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-linkedin"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -1078,7 +1078,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-localai"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -1090,7 +1090,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-luma"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -1102,7 +1102,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-nostr"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -1113,7 +1113,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-openai"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -1126,7 +1126,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-pypi"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -1137,7 +1137,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-rubygems"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -1148,7 +1148,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-telegram"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -1160,7 +1160,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-w3c"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -1171,7 +1171,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-whatsapp"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "borsh",
@@ -1183,7 +1183,7 @@ dependencies = [
 
 [[package]]
 name = "known-types-x"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "async-graphql",
  "bincode",
