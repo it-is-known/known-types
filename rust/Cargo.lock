@@ -960,6 +960,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "known-types-facebook"
+version = "0.1.0"
+dependencies = [
+ "bincode",
+ "borsh",
+ "musli",
+ "rasn",
+ "serde",
+]
+
+[[package]]
 name = "known-types-github"
 version = "0.1.0"
 dependencies = [
@@ -1017,12 +1028,34 @@ dependencies = [
 ]
 
 [[package]]
+name = "known-types-imdb"
+version = "0.1.0"
+dependencies = [
+ "bincode",
+ "borsh",
+ "musli",
+ "rasn",
+ "serde",
+]
+
+[[package]]
 name = "known-types-instagram"
 version = "0.1.0"
 dependencies = [
  "bincode",
  "borsh",
  "derive_more",
+ "musli",
+ "rasn",
+ "serde",
+]
+
+[[package]]
+name = "known-types-introco"
+version = "0.1.0"
+dependencies = [
+ "bincode",
+ "borsh",
  "musli",
  "rasn",
  "serde",
@@ -1037,6 +1070,17 @@ dependencies = [
  "derive_more",
  "musli",
  "percent-encoding",
+ "rasn",
+ "serde",
+]
+
+[[package]]
+name = "known-types-localai"
+version = "0.1.0"
+dependencies = [
+ "bincode",
+ "borsh",
+ "musli",
  "rasn",
  "serde",
 ]
@@ -1100,7 +1144,29 @@ dependencies = [
 ]
 
 [[package]]
+name = "known-types-telegram"
+version = "0.1.0"
+dependencies = [
+ "bincode",
+ "borsh",
+ "musli",
+ "rasn",
+ "serde",
+]
+
+[[package]]
 name = "known-types-w3c"
+version = "0.1.0"
+dependencies = [
+ "bincode",
+ "borsh",
+ "musli",
+ "rasn",
+ "serde",
+]
+
+[[package]]
+name = "known-types-whatsapp"
 version = "0.1.0"
 dependencies = [
  "bincode",

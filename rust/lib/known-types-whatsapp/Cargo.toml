@@ -1,0 +1,38 @@
+[package]
+name = "known-types-whatsapp"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+#rust-version.workspace = true
+description = "Well-known types for WhatsApp data."
+#documentation.workspace = true
+readme.workspace = true
+homepage.workspace = true
+repository.workspace = true
+license.workspace = true
+keywords = ["known-types", "whatsapp", "api", "serde"]
+categories.workspace = true
+publish.workspace = true
+
+[features]
+default = ["all", "std"]
+all = []
+alloc = ["bincode?/alloc", "musli?/alloc", "serde?/alloc"]
+std = [
+    "alloc",
+    "bincode?/std",
+    "borsh?/std",
+    "musli?/std",
+    "rasn?/std",
+    "serde?/std",
+]
+unstable = []
+
+[dependencies]
+bincode = { workspace = true, optional = true }
+borsh = { workspace = true, optional = true }
+musli = { workspace = true, optional = true }
+rasn = { workspace = true, optional = true }
+serde = { workspace = true, optional = true }
+
+[dev-dependencies]
