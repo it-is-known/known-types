@@ -3,7 +3,7 @@
 #[cfg(not(feature = "alloc"))]
 compile_error!("this module requires the 'alloc' feature");
 
-use crate::prelude::{String, Vec};
+use alloc::{string::String, vec::Vec};
 
 #[derive(Clone, Debug, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]

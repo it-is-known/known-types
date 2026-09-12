@@ -15,3 +15,6 @@
 //#[cfg(doctest)]
 //#[doc = include_str!("../README.md")]
 //pub struct ReadmeDoctests;
+
+#[cfg(feature = "alloc")]
+extern crate alloc;

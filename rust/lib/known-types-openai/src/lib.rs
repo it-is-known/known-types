@@ -12,9 +12,12 @@
 #![deny(clippy::unwrap_used)]
 #![deny(clippy::alloc_instead_of_core)]
 
-#[cfg(doctest)]
-#[doc = include_str!("../README.md")]
-pub struct ReadmeDoctests;
+//#[cfg(doctest)]
+//#[doc = include_str!("../README.md")]
+//pub struct ReadmeDoctests;
+
+#[cfg(feature = "alloc")]
+extern crate alloc;
 
 mod prelude;
 

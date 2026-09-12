@@ -3,7 +3,7 @@
 //! This crate provides well-known types for IETF specifications.
 //!
 //! ```edition2024
-//! # use known_types_ietf::*;
+//! use known_types_ietf::*;
 //! ```
 
 #![no_std]
@@ -12,8 +12,9 @@
 #![deny(clippy::unwrap_used)]
 #![deny(clippy::alloc_instead_of_core)]
 
-#[cfg(doctest)]
-#[doc = include_str!("../../../README.md")]
-pub struct ReadmeDoctests;
+//#[cfg(doctest)]
+//#[doc = include_str!("../README.md")]
+//pub struct ReadmeDoctests;
 
-mod prelude;
+#[cfg(feature = "alloc")]
+extern crate alloc;

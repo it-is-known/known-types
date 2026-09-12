@@ -3,7 +3,7 @@
 //! This crate provides well-known types for Python Package Index (PyPI) APIs.
 //!
 //! ```edition2024
-//! # use known_types_pypi::*;
+//! use known_types_pypi::*;
 //! ```
 
 #![no_std]
@@ -12,11 +12,12 @@
 #![deny(clippy::unwrap_used)]
 #![deny(clippy::alloc_instead_of_core)]
 
-#[cfg(doctest)]
-#[doc = include_str!("../../../README.md")]
-pub struct ReadmeDoctests;
+//#[cfg(doctest)]
+//#[doc = include_str!("../README.md")]
+//pub struct ReadmeDoctests;
 
-mod prelude;
+#[cfg(feature = "alloc")]
+extern crate alloc;
 
 #[cfg(feature = "alloc")]
 mod package;

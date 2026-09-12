@@ -3,7 +3,7 @@
 #[cfg(not(feature = "alloc"))]
 compile_error!("this module requires the 'alloc' feature");
 
-use crate::prelude::String;
+use alloc::string::String;
 use core::str::FromStr;
 use derive_more::{AsRef, Display};
 use percent_encoding::percent_decode_str;
@@ -74,7 +74,7 @@ fn test_linkedin_handle_from_str_encoded() {
 
 #[test]
 fn test_linkedin_handle_from_string_encoded() {
-    use crate::prelude::ToString;
+    use alloc::string::ToString;
     assert_eq!(
         LinkedinHandle::from("bj%C3%B6rn".to_string()),
         LinkedinHandle("björn".into())
