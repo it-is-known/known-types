@@ -167,6 +167,70 @@ use known_types_x;
 
 </details>
 
+### Using handles with async-graphql
+
+All handle crates support [async-graphql] 7.2 through the optional `async-graphql`
+feature. It enables `std` (and `alloc`) and implements `ScalarType`, `InputType`,
+`OutputType`, and `connection::CursorType`. It also works with
+`default-features = false` and requires no `serde` feature on the handle crate.
+
+For example, to use `XHandle` as a query argument and return value:
+
+```toml
+[dependencies]
+known-types-x = { version = "0.1", default-features = false, features = ["async-graphql"] }
+async-graphql = { version = "7.2", default-features = false }
+```
+
+```rust
+use async_graphql::Object;
+use known_types_x::XHandle;
+
+struct Query;
+
+#[Object]
+impl Query {
+    async fn handle(&self, input: XHandle) -> XHandle {
+        input
+    }
+}
+```
+
+The resulting field is `handle(input: XHandle!): XHandle!`. Queries can pass
+string literals or variables declared as `XHandle`, for example:
+
+```graphql
+query($handle: XHandle!) {
+  handle(input: $handle)
+}
+```
+
+With variables `{"handle": "Some_User"}`, this returns
+`{"data": {"handle": "Some_User"}}`. Handles also work in `InputObject` and
+`SimpleObject` fields, `Option<Handle>`, and `Vec<Handle>`.
+
+Each handle has its own scalar name matching its Rust type: `XHandle`,
+`FacebookHandle`, `GithubHandle`, `GravatarHandle`, `InstagramHandle`,
+`IntrocoHandle`, `LinkedinHandle`, `LocalaiHandle`, `LumaHandle`, `TelegramHandle`,
+and `WhatsappHandle`. Scalars accept only GraphQL strings and serialize to
+strings. `LinkedinHandle` input uses its existing `FromStr` validation and
+normalization (trimming whitespace and percent-decoding UTF-8); invalid input
+returns a GraphQL input error. The other handles preserve their input verbatim.
+
+#### Handles as connection cursors
+
+All handles implement `connection::CursorType` under the same feature, so they
+can be used directly in `Connection<Handle, Node>` and `Edge<Handle, Node>`.
+Like async-graphql's `String` cursors, they encode the stored string verbatim and
+decode infallibly. This preserves `XHandle`'s existing cursor format and ensures
+that already-normalized LinkedIn handles round-trip without double-decoding
+percent escapes or trimming meaningful whitespace.
+
+Handle cursors are appropriate when the handle is the unique ordering key for
+the connection. The application supplies deterministic pagination ordering and
+decides how handle renames affect that ordering; `CursorType` supplies the
+reversible encoding.
+
 ### Using handles with SQLx
 
 All handle crates support [SQLx] 0.9 through optional features:
@@ -243,6 +307,7 @@ Crate | Version | Docs | Summary
 
 Crate (Feature) | Version | Usage | Summary
 :--- | :--- | :--- | :---
+[async-graphql] &nbsp;<sub>(`"async-graphql"`)</sub> | 7.2 | [![async-graphql](https://docs.rs/async-graphql/badge.svg)](https://docs.rs/async-graphql/) | Implements `ScalarType`, `InputType`, `OutputType`, and `connection::CursorType` for handles
 [bincode] &nbsp;<sub>(`"bincode"`)</sub> | 2 | [![bincode](https://docs.rs/bincode/badge.svg)](https://docs.rs/bincode/) | Derives `bincode::{Encode, Decode}`
 [borsh] &nbsp;<sub>(`"borsh"`)</sub> | 1.5 | [![borsh](https://docs.rs/borsh/badge.svg)](https://docs.rs/borsh/) | Derives `borsh::{BorshSerialize, BorshDeserialize}`
 [musli] &nbsp;<sub>(`"musli"`)</sub> | 0.0.131 | [![musli](https://docs.rs/musli/badge.svg)](https://docs.rs/musli/) | Derives `musli::{Encode, Decode}`
@@ -279,6 +344,7 @@ git clone https://github.com/it-is-known/known-types.git
 [naming conventions]: https://rust-lang.github.io/api-guidelines/naming.html
 
 [Rust]: https://rust-lang.org
+[async-graphql]: https://crates.io/crates/async-graphql
 [bincode]: https://crates.io/crates/bincode
 [borsh]: https://crates.io/crates/borsh
 [musli]: https://crates.io/crates/musli

@@ -12,6 +12,36 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
+  check-async-graphql:
+    name: Check async-graphql (${{ matrix.features }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        features:
+          - async-graphql
+          - default,async-graphql
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Test handle integrations
+        working-directory: rust
+        run: >-
+          cargo test --no-default-features --features "${{ matrix.features }}"
+          -p known-types-x
+          -p known-types-facebook
+          -p known-types-github
+          -p known-types-gravatar
+          -p known-types-instagram
+          -p known-types-introco
+          -p known-types-linkedin
+          -p known-types-localai
+          -p known-types-luma
+          -p known-types-telegram
+          -p known-types-whatsapp
+
   check-sqlx:
     name: Check SQLx (${{ matrix.features }})
     runs-on: ubuntu-latest

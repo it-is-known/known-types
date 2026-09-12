@@ -29,6 +29,7 @@ std = [
 unstable = []
 
 # Interoperability:
+async-graphql = ["dep:async-graphql", "std"]
 sqlx = ["dep:sqlx", "std"]
 sqlx-mysql = ["sqlx", "sqlx/mysql"]
 sqlx-postgres = ["sqlx", "sqlx/postgres"]
