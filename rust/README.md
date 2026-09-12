@@ -167,6 +167,52 @@ use known_types_x;
 
 </details>
 
+### Using handles with SQLx
+
+All handle crates support [SQLx] 0.9 through optional features:
+
+Feature | Effect
+:--- | :---
+`sqlx` | Implements `sqlx::{Type, Encode, Decode}` transparently over `String`; enables `std`.
+`sqlx-postgres` | Enables `sqlx` and the PostgreSQL driver, including PostgreSQL array support.
+`sqlx-mysql` | Enables `sqlx` and the MySQL driver.
+`sqlx-sqlite` | Enables `sqlx` and the SQLite driver.
+
+For example, to use `XHandle` with PostgreSQL:
+
+```toml
+[dependencies]
+known-types-x = { version = "0.1", features = ["sqlx-postgres"] }
+sqlx = { version = "0.9", default-features = false, features = ["postgres", "runtime-tokio"] }
+```
+
+```rust
+use known_types_x::XHandle;
+
+async fn round_trip(pool: &sqlx::PgPool, handle: &XHandle) -> Result<XHandle, sqlx::Error> {
+    sqlx::query_scalar("SELECT $1::text")
+        .bind(handle)
+        .fetch_one(pool)
+        .await
+}
+```
+
+Handles can be bound by value or reference, decoded from string columns, and
+wrapped in `Option` for nullable columns. PostgreSQL also supports `Vec<Handle>`
+for text arrays. Decoding preserves the stored string without parsing or
+normalizing it again.
+
+The same features are available for `FacebookHandle`, `GithubHandle`,
+`GravatarHandle`, `InstagramHandle`, `IntrocoHandle`, `LinkedinHandle`,
+`LocalaiHandle`, `LumaHandle`, `TelegramHandle`, and `WhatsappHandle` in their
+respective crates. If the application already enables its database driver on
+`sqlx`, enabling just `sqlx` on a handle crate is sufficient. SQLx support is
+disabled by default and also works with `default-features = false`.
+
+When using SQLx's compile-time query macros, use an explicit column type override
+such as `SELECT handle AS "handle: XHandle"` with `query!`, or
+`SELECT handle AS "handle: _"` with `query_as!` and a struct field of type `XHandle`.
+
 ## 📚 Reference
 
 [docs.rs/known-types](https://docs.rs/known-types)
@@ -202,6 +248,7 @@ Crate (Feature) | Version | Usage | Summary
 [musli] &nbsp;<sub>(`"musli"`)</sub> | 0.0.131 | [![musli](https://docs.rs/musli/badge.svg)](https://docs.rs/musli/) | Derives `musli::{Encode, Decode}`
 [rasn] &nbsp;<sub>(`"rasn"`)</sub> | 0.26 | [![rasn](https://docs.rs/rasn/badge.svg)](https://docs.rs/rasn/) | Derives `rasn::AsnType` with `rasn(automatic_tags)`
 [serde] &nbsp;<sub>(`"serde"`)</sub> | 1 | [![serde](https://docs.rs/serde/badge.svg)](https://docs.rs/serde/) | Derives `serde::{Serialize, Deserialize}`
+[SQLx] &nbsp;<sub>(`"sqlx"`)</sub> | 0.9 | [![sqlx](https://docs.rs/sqlx/badge.svg)](https://docs.rs/sqlx/) | Implements `sqlx::{Type, Encode, Decode}` for handles
 <img width="220" height="1"/> | <img width="110" height="1"/> | <img width="100" height="1"/> | &nbsp;
 
 ### See Also
@@ -237,6 +284,7 @@ git clone https://github.com/it-is-known/known-types.git
 [musli]: https://crates.io/crates/musli
 [rasn]: https://crates.io/crates/rasn
 [serde]: https://crates.io/crates/serde
+[SQLx]: https://crates.io/crates/sqlx
 
 [known-types]: https://github.com/it-is-known/known-types/tree/master/rust/lib/known-types
 [known-types-anthropic]: https://github.com/it-is-known/known-types/tree/master/rust/lib/known-types-anthropic

@@ -30,6 +30,9 @@ unstable = []
 
 # Interoperability:
 sqlx = ["dep:sqlx", "std"]
+sqlx-mysql = ["sqlx", "sqlx/mysql"]
+sqlx-postgres = ["sqlx", "sqlx/postgres"]
+sqlx-sqlite = ["sqlx", "sqlx/sqlite"]
 
 [dependencies]
 derive_more = { workspace = true, features = [
@@ -49,3 +52,6 @@ musli = { workspace = true, optional = true }
 rasn = { workspace = true, optional = true }
 serde = { workspace = true, optional = true }
 sqlx = { workspace = true, optional = true }
+
+[dev-dependencies]
+futures-executor = { workspace = true }

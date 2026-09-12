@@ -53,3 +53,6 @@ musli = { workspace = true, optional = true }
 rasn = { workspace = true, optional = true }
 serde = { workspace = true, optional = true }
 sqlx = { workspace = true, optional = true }
+
+[dev-dependencies]
+futures-executor = { workspace = true }

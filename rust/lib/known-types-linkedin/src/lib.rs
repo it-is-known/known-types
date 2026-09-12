@@ -19,6 +19,9 @@
 #[cfg(feature = "alloc")]
 extern crate alloc;
 
+#[cfg(feature = "std")]
+extern crate std;
+
 #[cfg(feature = "alloc")]
 mod handle;
 #[cfg(feature = "alloc")]

@@ -11,6 +11,8 @@ use percent_encoding::percent_decode_str;
 /// A LinkedIn handle (aka username).
 #[derive(AsRef, Clone, Debug, Display, Eq, Hash, Ord, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "sqlx", derive(sqlx::Type))]
+#[cfg_attr(feature = "sqlx", sqlx(transparent))]
 pub struct LinkedinHandle(String);
 
 impl From<String> for LinkedinHandle {
