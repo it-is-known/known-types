@@ -28,7 +28,7 @@ std = [
 ]
 unstable = []
 
-# Integrations:
+# Interoperability:
 async-graphql = ["dep:async-graphql"]
 libsql = ["dep:libsql"]
 sqlx = ["dep:sqlx", "std"]
@@ -44,7 +44,7 @@ derive_more = { workspace = true, features = [
     "from_str",
 ] }
 
-# Integrations:
+# Interoperability:
 async-graphql = { workspace = true, optional = true }
 bincode = { workspace = true, optional = true }
 borsh = { workspace = true, optional = true }
@@ -53,5 +53,3 @@ musli = { workspace = true, optional = true }
 rasn = { workspace = true, optional = true }
 serde = { workspace = true, optional = true }
 sqlx = { workspace = true, optional = true }
-
-[dev-dependencies]

@@ -28,11 +28,19 @@ std = [
 ]
 unstable = []
 
+# Interoperability:
+
 [dependencies]
+derive_more = { workspace = true, features = [
+    "as_ref",
+    "display",
+    "from",
+    "from_str",
+] }
+
+# Interoperability:
 bincode = { workspace = true, optional = true }
 borsh = { workspace = true, optional = true }
 musli = { workspace = true, optional = true }
 rasn = { workspace = true, optional = true }
 serde = { workspace = true, optional = true }
-
-[dev-dependencies]

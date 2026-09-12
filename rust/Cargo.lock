@@ -965,6 +965,7 @@ version = "0.1.0"
 dependencies = [
  "bincode",
  "borsh",
+ "derive_more",
  "musli",
  "rasn",
  "serde",
@@ -1056,6 +1057,7 @@ version = "0.1.0"
 dependencies = [
  "bincode",
  "borsh",
+ "derive_more",
  "musli",
  "rasn",
  "serde",
@@ -1080,6 +1082,7 @@ version = "0.1.0"
 dependencies = [
  "bincode",
  "borsh",
+ "derive_more",
  "musli",
  "rasn",
  "serde",
@@ -1149,6 +1152,7 @@ version = "0.1.0"
 dependencies = [
  "bincode",
  "borsh",
+ "derive_more",
  "musli",
  "rasn",
  "serde",
@@ -1171,6 +1175,7 @@ version = "0.1.0"
 dependencies = [
  "bincode",
  "borsh",
+ "derive_more",
  "musli",
  "rasn",
  "serde",

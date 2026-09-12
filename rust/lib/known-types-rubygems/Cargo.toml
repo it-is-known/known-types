@@ -28,11 +28,13 @@ std = [
 ]
 unstable = []
 
+# Interoperability:
+
 [dependencies]
+
+# Interoperability:
 bincode = { workspace = true, optional = true }
 borsh = { workspace = true, optional = true }
 musli = { workspace = true, optional = true }
 rasn = { workspace = true, optional = true }
 serde = { workspace = true, optional = true }
-
-[dev-dependencies]

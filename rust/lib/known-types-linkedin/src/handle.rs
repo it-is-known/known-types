@@ -8,6 +8,7 @@ use core::str::FromStr;
 use derive_more::{AsRef, Display};
 use percent_encoding::percent_decode_str;
 
+/// A LinkedIn handle (aka username).
 #[derive(AsRef, Clone, Debug, Display, Eq, Hash, Ord, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct LinkedinHandle(String);

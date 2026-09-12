@@ -18,3 +18,8 @@
 
 #[cfg(feature = "alloc")]
 extern crate alloc;
+
+#[cfg(feature = "alloc")]
+mod handle;
+#[cfg(feature = "alloc")]
+pub use handle::*;
