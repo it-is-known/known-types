@@ -29,15 +29,19 @@ std = [
 unstable = []
 
 # Interoperability:
+sqlx = ["dep:sqlx", "std"]
 
 [dependencies]
 
 # Interoperability:
+async-graphql = { workspace = true, optional = true }
 bincode = { workspace = true, optional = true }
 borsh = { workspace = true, optional = true }
+libsql = { workspace = true, optional = true }
 musli = { workspace = true, optional = true }
 rasn = { workspace = true, optional = true }
 serde = { workspace = true, optional = true }
+sqlx = { workspace = true, optional = true }
 
 [dev-dependencies]
 known-types-openai = { path = ".", features = ["serde"] }
