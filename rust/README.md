@@ -391,10 +391,8 @@ Crate | Version | Docs | Summary
 Crate (Feature) | Version | Usage | Summary
 :--- | :--- | :--- | :---
 [async-graphql] &nbsp;<sub>(`"async-graphql"`)</sub> | 7.2 | [![async-graphql](https://docs.rs/async-graphql/badge.svg)](https://docs.rs/async-graphql/) | Implements `ScalarType`, `InputType`, `OutputType`, and `connection::CursorType` for handles
-[bincode] &nbsp;<sub>(`"bincode"`)</sub> | 2 | [![bincode](https://docs.rs/bincode/badge.svg)](https://docs.rs/bincode/) | Derives `bincode::{Encode, Decode}`
 [borsh] &nbsp;<sub>(`"borsh"`)</sub> | 1.5 | [![borsh](https://docs.rs/borsh/badge.svg)](https://docs.rs/borsh/) | Derives `borsh::{BorshSerialize, BorshDeserialize}`
 [musli] &nbsp;<sub>(`"musli"`)</sub> | 0.0.131 | [![musli](https://docs.rs/musli/badge.svg)](https://docs.rs/musli/) | Derives `musli::{Encode, Decode}`
-[rasn] &nbsp;<sub>(`"rasn"`)</sub> | 0.26 | [![rasn](https://docs.rs/rasn/badge.svg)](https://docs.rs/rasn/) | Derives `rasn::AsnType` with `rasn(automatic_tags)`
 [serde] &nbsp;<sub>(`"serde"`)</sub> | 1 | [![serde](https://docs.rs/serde/badge.svg)](https://docs.rs/serde/) | Derives `serde::{Serialize, Deserialize}`
 [SQLx] &nbsp;<sub>(`"sqlx"`)</sub> | 0.9 | [![sqlx](https://docs.rs/sqlx/badge.svg)](https://docs.rs/sqlx/) | Implements `sqlx::{Type, Encode, Decode}` for handles
 <img width="220" height="1"/> | <img width="110" height="1"/> | <img width="100" height="1"/> | &nbsp;
@@ -428,10 +426,8 @@ git clone https://github.com/it-is-known/known-types.git
 
 [Rust]: https://rust-lang.org
 [async-graphql]: https://crates.io/crates/async-graphql
-[bincode]: https://crates.io/crates/bincode
 [borsh]: https://crates.io/crates/borsh
 [musli]: https://crates.io/crates/musli
-[rasn]: https://crates.io/crates/rasn
 [serde]: https://crates.io/crates/serde
 [SQLx]: https://crates.io/crates/sqlx
 

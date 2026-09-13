@@ -7,9 +7,7 @@ use alloc::{string::String, vec::Vec};
 
 #[derive(Clone, Debug, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[cfg_attr(feature = "rasn", derive(rasn::AsnType), rasn(automatic_tags))]
 #[cfg_attr(feature = "musli", derive(musli::Encode, musli::Decode))]
-#[cfg_attr(feature = "bincode", derive(bincode::Encode, bincode::Decode))]
 #[cfg_attr(
     feature = "borsh",
     derive(borsh::BorshSerialize, borsh::BorshDeserialize)
@@ -21,9 +19,7 @@ pub struct GemInfo {
 
 #[derive(Clone, Debug, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[cfg_attr(feature = "rasn", derive(rasn::AsnType), rasn(automatic_tags))]
 #[cfg_attr(feature = "musli", derive(musli::Encode, musli::Decode))]
-#[cfg_attr(feature = "bincode", derive(bincode::Encode, bincode::Decode))]
 #[cfg_attr(
     feature = "borsh",
     derive(borsh::BorshSerialize, borsh::BorshDeserialize)
@@ -37,9 +33,7 @@ pub struct Dependencies {
 
 #[derive(Clone, Debug, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[cfg_attr(feature = "rasn", derive(rasn::AsnType), rasn(automatic_tags))]
 #[cfg_attr(feature = "musli", derive(musli::Encode, musli::Decode))]
-#[cfg_attr(feature = "bincode", derive(bincode::Encode, bincode::Decode))]
 #[cfg_attr(
     feature = "borsh",
     derive(borsh::BorshSerialize, borsh::BorshDeserialize)

@@ -17,13 +17,11 @@ publish.workspace = true
 [features]
 default = ["all", "std"]
 all = []
-alloc = ["bincode?/alloc", "musli?/alloc", "serde?/alloc"]
+alloc = ["musli?/alloc", "serde?/alloc"]
 std = [
     "alloc",
-    "bincode?/std",
     "borsh?/std",
     "musli?/std",
-    "rasn?/std",
     "serde?/std",
 ]
 unstable = []
@@ -41,10 +39,8 @@ derive_more = { workspace = true, features = ["as_ref", "display"] }
 
 # Interoperability:
 async-graphql = { workspace = true, optional = true }
-bincode = { workspace = true, optional = true }
 borsh = { workspace = true, optional = true }
 libsql = { workspace = true, optional = true }
 musli = { workspace = true, optional = true }
-rasn = { workspace = true, optional = true }
 serde = { workspace = true, optional = true }
 sqlx = { workspace = true, optional = true }
