@@ -19,9 +19,17 @@ use known_types::handle::{validate_ascii, validate_length};
 ///
 /// See <https://www.facebook.com/help/105399436216001>.
 ///
-/// With the `async-graphql` feature, this is a string scalar named `FacebookHandle`
-/// implementing `ScalarType`, `InputType`, `OutputType`, and `CursorType`.
-/// All input, including cursors, is validated using `FromStr`.
+/// ```
+/// use known_types_facebook::FacebookHandle;
+///
+/// let dotted: FacebookHandle = "@Alice.Smith".parse()?;
+/// assert_eq!(dotted.as_str(), "Alice.Smith");
+/// assert_eq!(dotted, "alicesmith".parse::<FacebookHandle>()?);
+/// # Ok::<(), known_types_facebook::ParseHandleError>(())
+/// ```
+///
+/// See the [shared handle contract](known_types::handle) for conversion and
+/// integration behavior. With `async-graphql`, the scalar is named `FacebookHandle`.
 #[derive(AsRef, Clone, Debug, Display, Eq)]
 pub struct FacebookHandle(String);
 

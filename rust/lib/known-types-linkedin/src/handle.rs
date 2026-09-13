@@ -20,9 +20,27 @@ use percent_encoding::percent_decode_str;
 ///
 /// See <https://www.linkedin.com/help/linkedin/answer/a542685/manage-your-public-profile-url>.
 ///
-/// With the `async-graphql` feature, this is a string scalar named `LinkedinHandle`
-/// implementing `ScalarType`, `InputType`, `OutputType`, and `CursorType`.
-/// All input, including cursors, is validated using `FromStr`.
+/// Trimming precedes decoding: `%20alice%20` is rejected, not trimmed a second
+/// time. Invalid UTF-8, decoded spaces, slashes, and literal percent signs are
+/// forbidden. `literal%2520handle` is rejected rather than decoded repeatedly.
+/// Valid stored handles round-trip through parsing and every enabled integration
+/// without changing their spelling.
+///
+/// ```
+/// use known_types_linkedin::LinkedinHandle;
+///
+/// let handle: LinkedinHandle = " Bj%C3%96rn ".parse()?;
+/// assert_eq!(handle.as_str(), "BjÖrn");
+/// assert_eq!(handle, "björn".parse::<LinkedinHandle>()?);
+/// let reparsed: LinkedinHandle = handle.as_str().parse()?;
+/// assert_eq!(reparsed.as_str(), handle.as_str());
+/// assert!("%20alice%20".parse::<LinkedinHandle>().is_err());
+/// assert!("literal%2520handle".parse::<LinkedinHandle>().is_err());
+/// # Ok::<(), known_types_linkedin::ParseHandleError>(())
+/// ```
+///
+/// See the [shared handle contract](known_types::handle) for conversion and
+/// integration behavior. With `async-graphql`, the scalar is named `LinkedinHandle`.
 #[derive(AsRef, Clone, Debug, Display, Eq)]
 pub struct LinkedinHandle(String);
 

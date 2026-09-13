@@ -18,11 +18,21 @@ use known_types::handle::{validate_ascii, validate_length};
 /// Web-address prefixes (`www.`) and suffixes (`.com`, `.net`) are forbidden.
 /// Parsing drops one optional `@` and normalizes to lowercase.
 ///
-/// See <https://www.whatsapp.com/usernames-faq/>.
+/// See <https://www.whatsapp.com/usernames-faq/> and the
+/// [format rules summarized by PickMyHandle](https://pickmyhandle.com/blog/whatsapp-username-rules)
+/// (a third-party reference).
 ///
-/// With the `async-graphql` feature, this is a string scalar named `WhatsappHandle`
-/// implementing `ScalarType`, `InputType`, `OutputType`, and `CursorType`.
-/// All input, including cursors, is validated using `FromStr`.
+/// ```
+/// use known_types_whatsapp::WhatsappHandle;
+///
+/// let handle: WhatsappHandle = "@Dev__Arjun".parse()?;
+/// assert_eq!(handle.as_str(), "dev__arjun");
+/// assert!("www.alice".parse::<WhatsappHandle>().is_err());
+/// # Ok::<(), known_types_whatsapp::ParseHandleError>(())
+/// ```
+///
+/// See the [shared handle contract](known_types::handle) for conversion and
+/// integration behavior. With `async-graphql`, the scalar is named `WhatsappHandle`.
 #[derive(AsRef, Clone, Debug, Display, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct WhatsappHandle(String);
 

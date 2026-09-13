@@ -20,9 +20,17 @@ use known_types::handle::{validate_ascii, validate_length};
 ///
 /// See <https://docs.github.com/en/enterprise-cloud@latest/admin/managing-iam/iam-configuration-reference/username-considerations-for-external-authentication>.
 ///
-/// With the `async-graphql` feature, this is a string scalar named `GithubHandle`
-/// implementing `ScalarType`, `InputType`, `OutputType`, and `CursorType`.
-/// All input, including cursors, is validated using `FromStr`.
+/// ```
+/// use known_types_github::GithubHandle;
+///
+/// let managed: GithubHandle = "@The-Octocat_octo".parse()?;
+/// assert_eq!(managed.as_str(), "The-Octocat_octo");
+/// assert!("octo--cat".parse::<GithubHandle>().is_err());
+/// # Ok::<(), known_types_github::ParseHandleError>(())
+/// ```
+///
+/// See the [shared handle contract](known_types::handle) for conversion and
+/// integration behavior. With `async-graphql`, the scalar is named `GithubHandle`.
 #[derive(AsRef, Clone, Debug, Display, Eq)]
 pub struct GithubHandle(String);
 

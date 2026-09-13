@@ -15,11 +15,19 @@ use known_types::handle::validate_length;
 /// not publish a handle-length history in the material available to this
 /// crate, so these are conservative representational bounds rather than a
 /// claimed upstream registration limit. Spelling is preserved and comparisons
-/// are case-sensitive.
+/// are case-sensitive. Only length is validated.
 ///
-/// With the `async-graphql` feature, this is a string scalar named `IntrocoHandle`
-/// implementing `ScalarType`, `InputType`, `OutputType`, and `CursorType`.
-/// All input, including cursors, is validated using `FromStr`.
+/// ```
+/// use known_types_introco::IntrocoHandle;
+///
+/// let handle: IntrocoHandle = "Élodie".parse()?;
+/// assert_eq!(handle.as_str(), "Élodie");
+/// assert_ne!(handle, "élodie".parse::<IntrocoHandle>()?);
+/// # Ok::<(), known_types_introco::ParseHandleError>(())
+/// ```
+///
+/// See the [shared handle contract](known_types::handle) for conversion and
+/// integration behavior. With `async-graphql`, the scalar is named `IntrocoHandle`.
 #[derive(AsRef, Clone, Debug, Display, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct IntrocoHandle(String);
 

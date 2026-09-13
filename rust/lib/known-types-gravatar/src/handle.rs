@@ -18,9 +18,17 @@ use known_types::handle::{validate_ascii, validate_length};
 /// See <https://support.gravatar.com/custom-domains/change-your-profile-url/>
 /// and <https://developer.wordpress.org/reference/functions/wpmu_validate_user_signup/>.
 ///
-/// With the `async-graphql` feature, this is a string scalar named `GravatarHandle`
-/// implementing `ScalarType`, `InputType`, `OutputType`, and `CursorType`.
-/// All input, including cursors, is validated using `FromStr`.
+/// ```
+/// use known_types_gravatar::GravatarHandle;
+///
+/// let handle: GravatarHandle = "Alice123".parse()?;
+/// assert_eq!(handle.as_str(), "alice123");
+/// assert!("1234".parse::<GravatarHandle>().is_err());
+/// # Ok::<(), known_types_gravatar::ParseHandleError>(())
+/// ```
+///
+/// See the [shared handle contract](known_types::handle) for conversion and
+/// integration behavior. With `async-graphql`, the scalar is named `GravatarHandle`.
 #[derive(AsRef, Clone, Debug, Display, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct GravatarHandle(String);
 

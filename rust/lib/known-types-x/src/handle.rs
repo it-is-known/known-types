@@ -18,14 +18,32 @@ use known_types::handle::{validate_ascii, validate_length};
 /// Spelling is preserved, while equality, ordering, and hashing ignore ASCII
 /// case.
 ///
-/// See <https://help.x.com/en/managing-your-account/x-username-rules>.
+/// # Legacy compatibility
 ///
-/// With the `async-graphql` feature, this is a string scalar named `XHandle`
-/// implementing `ScalarType`, `InputType`, `OutputType`, and `CursorType`.
-/// All input, including cursors, is validated using `FromStr`.
+/// [X's current help page] specifies 15 characters. Twitter's archived [2010]
+/// and [2016] help pages also describe that limit, but the 2010 page explicitly
+/// preserves longer "early bird" usernames without publishing their hard upper
+/// bound. This type uses the historically reported 20-character compatibility
+/// ceiling and covers the known 16-character [`richardrushfield`] account.
+/// Longer inputs are rejected, never truncated.
 ///
-/// With the `sqlx` feature, this implements SQLx's `Type`, `Encode`, and
-/// `Decode` traits over `String`, validating on decode.
+/// ```
+/// use known_types_x::XHandle;
+///
+/// let legacy: XHandle = "@richardrushfield".parse()?;
+/// assert_eq!(legacy.as_str(), "richardrushfield");
+/// assert!(legacy.as_str().len() > XHandle::CURRENT_MAX_LENGTH);
+/// # Ok::<(), known_types_x::ParseHandleError>(())
+/// ```
+///
+/// See the [shared handle contract](known_types::handle) and
+/// [crate-level integration recipes](crate). With `async-graphql`, the scalar
+/// is named `XHandle`.
+///
+/// [X's current help page]: https://help.x.com/en/managing-your-account/x-username-rules
+/// [2010]: https://web.archive.org/web/20100718125730/http://support.twitter.com/entries/14609-how-to-change-your-username
+/// [2016]: https://web.archive.org/web/20161203051256/https://support.twitter.com/articles/14609
+/// [`richardrushfield`]: https://x.com/richardrushfield
 #[derive(AsRef, Clone, Debug, Display, Eq)]
 pub struct XHandle(String);
 

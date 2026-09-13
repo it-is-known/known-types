@@ -1,6 +1,85 @@
 // This is free and unencumbered software released into the public domain.
 
 //! Shared validation and errors for social media handles.
+//!
+//! The platform crates expose owned handle types behind their `alloc` feature.
+//! Each type documents its own syntax, normalization, length bounds, and upstream
+//! references. See, for example, [`XHandle`] and [`LinkedinHandle`].
+//!
+//! # Construction and migration
+//!
+//! Construct a handle with [`FromStr`](core::str::FromStr), `TryFrom<&str>`, or
+//! `TryFrom<String>`. The inner string is private: `as_str()` borrows the stored
+//! spelling, `Display` prints it, and `into_string()` consumes the handle to
+//! recover it. Parsing the stored spelling again preserves it exactly.
+//!
+//! Parsing and fallible conversions return [`ParseHandleError`]. Serde, GraphQL,
+//! and SQLx decoders use the same parser and report failures through their own
+//! error types; GraphQL cursor decoding returns `ParseHandleError` directly.
+//! Validation is local: it does not establish account availability, ownership,
+//! canonical capitalization, or acceptance of registration-only reserved names.
+//!
+//! To migrate from the former infallible `From` conversions (which could panic
+//! for LinkedIn), replace `Handle::from(text)` / `text.into()` with
+//! `text.parse()?` or `Handle::try_from(text)?`.
+//!
+//! # Length, normalization, and identity
+//!
+//! `MIN_LENGTH` and `MAX_LENGTH` are inclusive representational bounds, not
+//! necessarily current registration limits. X accepts legacy handles up to 20
+//! characters despite a current registration maximum of 15; Telegram includes
+//! four-character collectible usernames. Intro.co, local.ai, and Luma use
+//! documented 1–100 fallback bounds where an upstream contract is unavailable.
+//!
+//! Length counts Unicode scalar values after parser normalization, not UTF-8
+//! bytes or grapheme clusters. Platforms accepting a displayed `@` remove it
+//! exactly once. LinkedIn instead trims outer whitespace and strictly
+//! percent-decodes UTF-8 once before validation; malformed escapes and decoded
+//! forbidden characters are rejected.
+//!
+//! Equality, ordering, and hashing agree about identity. Some types lowercase
+//! their stored spelling; others preserve it while comparing case-insensitively.
+//! Facebook additionally ignores periods. The three fallback types are
+//! case-sensitive. Consult the type's contract before using handles as keys.
+//!
+//! # Integrations
+//!
+//! These features are implemented by all handle crates and are opt-in. The
+//! `all` feature is empty. Default features enable `std`, which enables `alloc`;
+//! for `no_std` handles with Serde, explicitly select `alloc,serde`.
+//!
+//! Feature | Behavior
+//! --- | ---
+//! `serde` | Serialize as a string; validate and normalize when deserializing. Requires `alloc` for the handle type.
+//! `async-graphql` | String scalar and connection cursor; enables `std` and `alloc` without requiring the handle crate's `serde` feature.
+//! `sqlx` | `Type`, `Encode`, and validating `Decode` over `String`; enables `std` and `alloc`.
+//! `sqlx-postgres` | Enables `sqlx`, the PostgreSQL driver, and text-array support.
+//! `sqlx-mysql` | Enables `sqlx` and the MySQL driver.
+//! `sqlx-sqlite` | Enables `sqlx` and the SQLite driver.
+//!
+//! GraphQL scalar names match the Rust type, such as `XHandle` or
+//! `LinkedinHandle`. Scalars accept only strings and implement `ScalarType`,
+//! `InputType`, and `OutputType`; handles also work in `InputObject`,
+//! `SimpleObject`, `Option<Handle>`, and `Vec<Handle>`.
+//!
+//! `connection::CursorType` encodes the stored string verbatim, without base64,
+//! and validates on decode. Handles can therefore be used in
+//! `Connection<Handle, Node>` and `Edge<Handle, Node>`. The application must supply
+//! deterministic ordering and decide how renames affect pagination; a handle
+//! cursor is suitable when the handle is the connection's unique ordering key.
+//!
+//! SQLx accepts handles by value or reference and supports `Option<Handle>` for
+//! nullable columns. PostgreSQL additionally supports `Vec<Handle>` with
+//! `sqlx-postgres`. If the application already enables its SQLx driver, the
+//! handle crate's `sqlx` feature is sufficient for scalar values. Applications
+//! select the SQLx runtime appropriate to their executor.
+//!
+//! See the [`known-types-x` crate documentation][recipes] for executable Serde,
+//! GraphQL, cursor, and SQLx examples; the same patterns apply to every handle.
+//!
+//! [`XHandle`]: https://docs.rs/known-types-x/latest/known_types_x/struct.XHandle.html
+//! [`LinkedinHandle`]: https://docs.rs/known-types-linkedin/latest/known_types_linkedin/struct.LinkedinHandle.html
+//! [recipes]: https://docs.rs/known-types-x/latest/known_types_x/
 
 use core::fmt;
 

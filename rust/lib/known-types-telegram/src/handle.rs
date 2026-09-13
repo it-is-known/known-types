@@ -22,9 +22,18 @@ use known_types::handle::{validate_ascii, validate_length};
 /// <https://core.telegram.org/api/fragment>, and
 /// <https://telegram.org/faq#q-what-can-i-use-as-my-username>.
 ///
-/// With the `async-graphql` feature, this is a string scalar named `TelegramHandle`
-/// implementing `ScalarType`, `InputType`, `OutputType`, and `CursorType`.
-/// All input, including cursors, is validated using `FromStr`.
+/// ```
+/// use known_types_telegram::TelegramHandle;
+///
+/// let collectible: TelegramHandle = "@News".parse()?;
+/// assert_eq!(collectible.as_str(), "News");
+/// assert_eq!(collectible, "news".parse::<TelegramHandle>()?);
+/// assert!("1news".parse::<TelegramHandle>().is_err());
+/// # Ok::<(), known_types_telegram::ParseHandleError>(())
+/// ```
+///
+/// See the [shared handle contract](known_types::handle) for conversion and
+/// integration behavior. With `async-graphql`, the scalar is named `TelegramHandle`.
 #[derive(AsRef, Clone, Debug, Display, Eq)]
 pub struct TelegramHandle(String);
 

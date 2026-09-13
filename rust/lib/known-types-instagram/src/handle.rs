@@ -16,9 +16,20 @@ use known_types::handle::{validate_ascii, validate_length};
 /// is also the representational ceiling. Periods cannot be leading, trailing,
 /// or consecutive. Parsing drops one optional `@` and normalizes to lowercase.
 ///
-/// With the `async-graphql` feature, this is a string scalar named `InstagramHandle`
-/// implementing `ScalarType`, `InputType`, `OutputType`, and `CursorType`.
-/// All input, including cursors, is validated using `FromStr`.
+/// See the [format rules summarized by HandleGrab](https://www.handlegrab.com/blog/instagram-username-rules)
+/// (a third-party reference).
+///
+/// ```
+/// use known_types_instagram::InstagramHandle;
+///
+/// let handle: InstagramHandle = "@Alice.Smith_".parse()?;
+/// assert_eq!(handle.as_str(), "alice.smith_");
+/// assert!("alice..smith".parse::<InstagramHandle>().is_err());
+/// # Ok::<(), known_types_instagram::ParseHandleError>(())
+/// ```
+///
+/// See the [shared handle contract](known_types::handle) for conversion and
+/// integration behavior. With `async-graphql`, the scalar is named `InstagramHandle`.
 #[derive(AsRef, Clone, Debug, Display, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct InstagramHandle(String);
 
