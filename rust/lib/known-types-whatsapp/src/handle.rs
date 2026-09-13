@@ -12,7 +12,9 @@ use known_types::handle::{validate_ascii, validate_length};
 /// A WhatsApp handle (aka username).
 ///
 /// Contains 3–35 ASCII letters, digits, periods, or underscores, starting with
-/// a letter. Periods cannot be leading, trailing, or consecutive.
+/// a letter. This is the current username feature's range; WhatsApp had no
+/// older username format to preserve. Periods cannot be leading, trailing, or
+/// consecutive.
 /// Web-address prefixes (`www.`) and suffixes (`.com`, `.net`) are forbidden.
 /// Parsing drops one optional `@` and normalizes to lowercase.
 ///

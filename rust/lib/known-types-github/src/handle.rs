@@ -13,8 +13,10 @@ use known_types::handle::{validate_ascii, validate_length};
 ///
 /// Contains 1–39 ASCII letters, digits, or single interior hyphens. Enterprise
 /// Managed Users may additionally have an `_` followed by a 3–8 character
-/// alphanumeric enterprise shortcode. Parsing drops one optional `@` and
-/// preserves spelling; equality, ordering, and hashing ignore ASCII case.
+/// alphanumeric enterprise shortcode. GitHub's current and legacy-compatible
+/// ceiling is 39 characters (30 for some data-residency managed users).
+/// Parsing drops one optional `@` and preserves spelling; equality, ordering,
+/// and hashing ignore ASCII case.
 ///
 /// See <https://docs.github.com/en/enterprise-cloud@latest/admin/managing-iam/iam-configuration-reference/username-considerations-for-external-authentication>.
 ///

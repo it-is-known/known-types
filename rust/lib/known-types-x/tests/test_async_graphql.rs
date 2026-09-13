@@ -87,7 +87,7 @@ fn test_rejects_invalid_handles_and_cursors() {
         " bj%C3%B6rn ",
         "literal%20handle",
         "björn",
-        "a".repeat(16).as_str(),
+        "a".repeat(21).as_str(),
     ] {
         let value = Value::String(text.into());
         assert!(!<XHandle as ScalarType>::is_valid(&value));

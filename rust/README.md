@@ -173,7 +173,10 @@ Construct handles with `FromStr` or `TryFrom<&str>` / `TryFrom<String>`. All
 construction and decoding paths validate the same constraints and return
 `ParseHandleError` on invalid input. The inner string is private; `as_str()`
 borrows it and `into_string()` consumes the handle to recover its stored spelling.
-`MIN_LENGTH` and `MAX_LENGTH` expose each type's inclusive length bounds.
+`MIN_LENGTH` and `MAX_LENGTH` expose each type's inclusive representational
+bounds. These are the widest known current or historical bounds needed to
+round-trip handles that exist in the wild; they are not necessarily current
+registration limits.
 
 ```rust
 use known_types_x::{ParseHandleError, XHandle};
@@ -187,26 +190,28 @@ fn main() -> Result<(), ParseHandleError> {
 }
 ```
 
-Platform | Length | Syntax and parsing | Comparison
-:--- | :--- | :--- | :---
-Facebook | 5–50 | ASCII letters/digits and periods; at least 5 alphanumeric characters; optional `@` | Ignores case and periods; preserves spelling
-GitHub | 1–39 | ASCII letters/digits and single interior hyphens; managed users may have an `_shortcode` suffix (3–8 alphanumeric characters); optional `@` | Ignores case; preserves spelling
-Gravatar | 4–60 | WordPress.com username: ASCII letters/digits, including a letter; lowercased | Ignores case
-Instagram | 1–30 | ASCII letters/digits, `_`, `.`; no leading/trailing/consecutive periods; optional `@`; lowercased | Ignores case
-Intro.co | 1–100 | Fallback length bounds | Case-sensitive; preserves spelling
-LinkedIn | 3–100 | Unicode letters/numbers and `-`; outer whitespace trimmed; percent-decoded before validation | Unicode case-insensitive; preserves spelling
-local.ai | 1–100 | Fallback length bounds | Case-sensitive; preserves spelling
-Luma | 1–100 | Fallback length bounds | Case-sensitive; preserves spelling
-Telegram | 4–32 | ASCII letters/digits and `_`; initial letter, final letter/digit; optional `@` | Ignores case; preserves spelling
-WhatsApp | 3–35 | ASCII letters/digits, `_`, `.`; initial letter; no leading/trailing/consecutive periods, `www.` prefix, or `.com`/`.net` suffix; optional `@`; lowercased | Ignores case
-X | 1–15 | ASCII letters/digits and `_`; optional `@` | Ignores case; preserves spelling
+Platform | Representable | Current upstream limit | Historical / legacy limit | Syntax and parsing | Comparison
+:--- | :--- | :--- | :--- | :--- | :---
+Facebook | 5–50 | 5–50 | No wider legacy limit found | ASCII letters/digits and periods; at least 5 alphanumeric characters; optional `@` | Ignores case and periods; preserves spelling
+GitHub | 1–39 | 1–39 (30 for some data-residency managed users) | No wider legacy limit found | ASCII letters/digits and single interior hyphens; managed users may have an `_shortcode` suffix (3–8 alphanumeric characters); optional `@` | Ignores case; preserves spelling
+Gravatar | 4–60 | WordPress.com username: 4–60 | WordPress multisite validation also documents 4–60 | ASCII letters/digits, including a letter; lowercased | Ignores case
+Instagram | 1–30 | 1–30 | No different legacy limit found | ASCII letters/digits, `_`, `.`; no leading/trailing/consecutive periods; optional `@`; lowercased | Ignores case
+Intro.co | 1–100 | Upstream limit not documented; fallback 1–100 | Upstream history not documented; fallback 1–100 | Fallback length bounds | Case-sensitive; preserves spelling
+LinkedIn | 3–100 | 3–100 | 3–100 is also documented in available legacy help captures; no wider limit found | Unicode letters/numbers and `-`; outer whitespace trimmed; percent-decoded before validation | Unicode case-insensitive; preserves spelling
+local.ai | 1–100 | Upstream limit not documented; fallback 1–100 | Upstream history not documented; fallback 1–100 | Fallback length bounds | Case-sensitive; preserves spelling
+Luma | 1–100 | Upstream limit not documented; fallback 1–100 | Upstream history not documented; fallback 1–100 | Fallback length bounds | Case-sensitive; preserves spelling
+Telegram | 4–32 | Basic: 5–32; collectible: 4–32 | Basic: 5–32; collectibles were introduced later | ASCII letters/digits and `_`; initial letter, final letter/digit; optional `@` | Ignores case; preserves spelling
+WhatsApp | 3–35 | 3–35 (new username feature) | No older username format to preserve | ASCII letters/digits, `_`, `.`; initial letter; no leading/trailing/consecutive periods, `www.` prefix, or `.com`/`.net` suffix; optional `@`; lowercased | Ignores case
+X | 1–20 | Maximum 15 for new registrations and edits | Legacy Twitter accounts can exceed 15; the compatibility ceiling is 20 | ASCII letters/digits and `_`; optional `@` | Ignores case; preserves spelling
 
-The bounds describe handle syntax, including existing short X handles and
-four-character Telegram collectibles. Account availability, ownership, and
-registration-only reserved names are determined by the upstream. The fallback
-types apply the requested 1–100 bounds where a more specific upstream contract
-is not known. Length is measured in Unicode scalar values after normalization;
-an optional `@` is removed exactly once on platforms that display it.
+The representational bounds deliberately include legacy values: X accepts up to
+20 so existing handles such as `@richardrushfield` remain representable, and
+Telegram accepts four-character collectible usernames even though basic
+usernames require five. Account availability, ownership, and registration-only
+reserved names are determined by the upstream. The fallback types apply the
+requested 1–100 bounds where a more specific upstream contract is not known.
+Length is measured in Unicode scalar values after normalization; an optional
+`@` is removed exactly once on platforms that display it.
 
 Case-insensitive handles use consistent `Eq`, `Ord`, and `Hash` implementations,
 so hash maps and ordered collections agree about identity. Case-preserving
@@ -235,6 +240,17 @@ Upstream references: [Facebook](https://www.facebook.com/help/105399436216001),
 [WhatsApp](https://www.whatsapp.com/usernames-faq/),
 [WhatsApp format rules](https://pickmyhandle.com/blog/whatsapp-username-rules),
 and [X](https://help.x.com/en/managing-your-account/x-username-rules).
+
+The X limits are corroborated by X's current help page (15 characters) and
+[Twitter's archived 2010 help page](https://web.archive.org/web/20100718125730/http://support.twitter.com/entries/14609-how-to-change-your-username)
+and [2016 help page](https://web.archive.org/web/20161203051256/https://support.twitter.com/articles/14609):
+both describe 15-character usernames, and the 2010 page explicitly preserves
+longer "early bird" usernames. The archived pages do not publish a hard upper
+bound for early-bird exceptions; this library uses the historically reported
+20-character compatibility ceiling and tests the known 16-character
+[`richardrushfield`](https://x.com/richardrushfield) account. A handle longer
+than 20 should be treated as an upstream exception rather than silently
+truncated.
 
 ### Using handles with async-graphql
 

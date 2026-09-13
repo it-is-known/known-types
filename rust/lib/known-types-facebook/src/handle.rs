@@ -12,8 +12,10 @@ use known_types::handle::{validate_ascii, validate_length};
 /// A Facebook handle (aka username).
 ///
 /// Contains 5–50 ASCII letters, digits, or periods, with at least five
-/// alphanumeric characters. Parsing drops one optional `@` and preserves
-/// spelling. Equality, ordering, and hashing ignore case and periods.
+/// alphanumeric characters. The same 5–50 range is used for current and
+/// legacy Facebook usernames; no wider legacy range was found. Parsing drops
+/// one optional `@` and preserves spelling. Equality, ordering, and hashing
+/// ignore case and periods.
 ///
 /// See <https://www.facebook.com/help/105399436216001>.
 ///

@@ -12,7 +12,8 @@ use known_types::handle::{validate_ascii, validate_length};
 /// A Gravatar handle (aka username).
 ///
 /// Gravatar shares WordPress.com usernames: 4–60 ASCII letters or digits,
-/// including at least one letter. Parsing normalizes to lowercase.
+/// including at least one letter. The WordPress validation rule documents the
+/// same 4–60 range needed for legacy usernames. Parsing normalizes to lowercase.
 ///
 /// See <https://support.gravatar.com/custom-domains/change-your-profile-url/>
 /// and <https://developer.wordpress.org/reference/functions/wpmu_validate_user_signup/>.

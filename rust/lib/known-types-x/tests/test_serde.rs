@@ -23,7 +23,7 @@ fn test_serde_validates_and_preserves_case() {
         "@@alice",
         "alice smith",
         "álîce",
-        "a".repeat(16).as_str(),
+        "a".repeat(21).as_str(),
     ] {
         let json = serde_json::to_string(input).expect("serialize string");
         assert!(

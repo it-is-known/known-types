@@ -12,8 +12,10 @@ use known_types::handle::{validate_ascii, validate_length};
 /// A Telegram handle (aka username).
 ///
 /// Contains 4–32 ASCII letters, digits, or underscores, starting with a letter
-/// and ending with a letter or digit. The minimum includes collectible handles;
-/// basic usernames require five characters. Parsing drops one optional `@`.
+/// and ending with a letter or digit. Current basic usernames are 5–32;
+/// current collectible usernames can be four characters. The historical basic
+/// range was 5–32, so the representational minimum includes the later
+/// collectible form. Parsing drops one optional `@`.
 /// Spelling is preserved; equality, ordering, and hashing ignore ASCII case.
 ///
 /// See <https://core.telegram.org/method/account.checkUsername>,

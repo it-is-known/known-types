@@ -12,7 +12,8 @@ use percent_encoding::percent_decode_str;
 
 /// A LinkedIn handle (aka username).
 ///
-/// Contains 3–100 Unicode letters or numbers, or hyphens. Parsing trims outer
+/// Contains 3–100 Unicode letters or numbers, or hyphens. The current 3–100
+/// rule is also the widest legacy-compatible range found. Parsing trims outer
 /// whitespace and percent-decodes UTF-8 exactly once before validating length
 /// and characters. Malformed escapes and encoded whitespace are rejected.
 /// Spelling is preserved; equality, ordering, and hashing use Unicode case folding.

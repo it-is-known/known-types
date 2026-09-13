@@ -74,7 +74,14 @@ fn test_sqlite_round_trip() -> Result<(), sqlx::Error> {
     futures_executor::block_on(async {
         let mut connection = SqliteConnection::connect("sqlite::memory:").await?;
 
-        for text in ["Some_User", "PlayItAgainSam", "x", "_user_"] {
+        for text in [
+            "Some_User",
+            "PlayItAgainSam",
+            "richardrushfield",
+            "abcdefghijklmnopqrst",
+            "x",
+            "_user_",
+        ] {
             let handle = XHandle::try_from(text).expect("valid handle");
             let decoded: XHandle = sqlx::query_scalar("SELECT ?")
                 .bind(&handle)
@@ -105,7 +112,7 @@ fn test_sqlite_round_trip() -> Result<(), sqlx::Error> {
             "@@User",
             "björn",
             "literal%20handle",
-            "a".repeat(16).as_str(),
+            "a".repeat(21).as_str(),
         ] {
             let error = sqlx::query_scalar::<_, XHandle>("SELECT ?")
                 .bind(input)

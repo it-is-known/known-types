@@ -69,7 +69,10 @@ macro_rules! impl_handle {
         impl $handle {
             /// Minimum length of the normalized handle, in Unicode scalar values.
             pub const MIN_LENGTH: usize = $min;
-            /// Maximum length of the normalized handle, in Unicode scalar values.
+            /// Maximum representational length, in Unicode scalar values.
+            ///
+            /// This is the widest known current or historical upstream bound,
+            /// not necessarily the current registration limit.
             pub const MAX_LENGTH: usize = $max;
 
             /// Borrow the validated, normalized handle.

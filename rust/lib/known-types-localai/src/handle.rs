@@ -11,9 +11,11 @@ use known_types::handle::validate_length;
 
 /// A local.ai handle (aka username).
 ///
-/// Uses the fallback length range of 1–100 Unicode scalar values. No more
-/// specific upstream syntax or case-normalization contract is known, so
-/// spelling is preserved and comparisons are case-sensitive.
+/// Uses the fallback length range of 1–100 Unicode scalar values. local.ai does
+/// not publish a handle-length history in the material available to this
+/// crate, so these are conservative representational bounds rather than a
+/// claimed upstream registration limit. Spelling is preserved and comparisons
+/// are case-sensitive.
 ///
 /// With the `async-graphql` feature, this is a string scalar named `LocalaiHandle`
 /// implementing `ScalarType`, `InputType`, `OutputType`, and `CursorType`.

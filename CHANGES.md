@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Validate all social handles with upstream-specific constraints and 1–100
   fallback length bounds. Replace `From` conversions with fallible `TryFrom`.
+- Keep legacy handle lengths representable: X accepts up to 20 characters for
+  existing Twitter accounts while documenting the current 15-character limit.
 - Normalize displayed `@` prefixes and lowercase-only usernames; preserve
   spelling for case-preserving upstreams while comparing, ordering, and hashing
   case-insensitively.
