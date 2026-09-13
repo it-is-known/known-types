@@ -4,7 +4,9 @@
 
 #![allow(non_camel_case_types)]
 
-use crate::prelude::{String, Vec};
+extern crate alloc;
+
+use alloc::{string::String, vec::Vec};
 
 #[derive(Clone, Debug, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]

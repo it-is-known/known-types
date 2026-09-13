@@ -19,7 +19,5 @@
 #[cfg(feature = "alloc")]
 extern crate alloc;
 
-mod prelude;
-
 pub mod groups;
 pub mod schemas;
