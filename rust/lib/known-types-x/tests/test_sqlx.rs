@@ -54,7 +54,7 @@ fn test_postgres_text_encoding() -> Result<(), sqlx::error::BoxDynError> {
         &sqlx::postgres::PgTypeInfo::with_name("VARCHAR")
     ));
 
-    let handle = XHandle::from("Some_User");
+    let handle = XHandle::try_from("Some_User").expect("valid handle");
     let mut buffer = PgArgumentBuffer::default();
     assert!(!<XHandle as Encode<Postgres>>::encode_by_ref(&handle, &mut buffer)?.is_null());
     assert_eq!(&buffer[..], b"Some_User");
@@ -74,8 +74,8 @@ fn test_sqlite_round_trip() -> Result<(), sqlx::Error> {
     futures_executor::block_on(async {
         let mut connection = SqliteConnection::connect("sqlite::memory:").await?;
 
-        for text in ["Some_User", "", "björn", "literal%20handle"] {
-            let handle = XHandle::from(text);
+        for text in ["Some_User", "PlayItAgainSam", "x", "_user_"] {
+            let handle = XHandle::try_from(text).expect("valid handle");
             let decoded: XHandle = sqlx::query_scalar("SELECT ?")
                 .bind(&handle)
                 .fetch_one(&mut connection)
@@ -92,6 +92,27 @@ fn test_sqlite_round_trip() -> Result<(), sqlx::Error> {
             assert_eq!(decoded, handle);
             assert_eq!(some, Some(handle));
             assert_eq!(none, None);
+        }
+
+        let normalized: XHandle = sqlx::query_scalar("SELECT '@Some_User'")
+            .fetch_one(&mut connection)
+            .await?;
+        assert_eq!(normalized.as_str(), "Some_User");
+
+        for input in [
+            "",
+            "@",
+            "@@User",
+            "björn",
+            "literal%20handle",
+            "a".repeat(16).as_str(),
+        ] {
+            let error = sqlx::query_scalar::<_, XHandle>("SELECT ?")
+                .bind(input)
+                .fetch_one(&mut connection)
+                .await
+                .expect_err("invalid database text must not decode as a handle");
+            assert!(matches!(error, sqlx::Error::ColumnDecode { .. }));
         }
 
         let error = sqlx::query_scalar::<_, XHandle>("SELECT 42")

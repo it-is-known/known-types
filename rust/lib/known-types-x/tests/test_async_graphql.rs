@@ -47,7 +47,7 @@ impl Query {
             None,
             None,
             |after: Option<XHandle>, _before: Option<XHandle>, _, _| async move {
-                let handle = after.unwrap_or_else(|| XHandle::from("Some_User"));
+                let handle = after.unwrap_or_else(|| "Some_User".parse().expect("valid handle"));
                 let mut connection = Connection::new(false, false);
                 connection.edges.push(Edge::new(handle.clone(), handle));
                 Ok::<_, async_graphql::Error>(connection)
@@ -61,22 +61,38 @@ impl Query {
 fn test_string_scalar_and_cursor_round_trip() {
     assert_eq!(<XHandle as InputType>::type_name(), "XHandle");
 
+    for (text, stored) in [
+        ("Some_User", "Some_User"),
+        ("@User", "User"),
+        ("x", "x"),
+        ("PlayItAgainSam", "PlayItAgainSam"),
+    ] {
+        let value = Value::String(text.into());
+        let handle = <XHandle as InputType>::parse(Some(value.clone())).expect("valid handle");
+        assert!(<XHandle as ScalarType>::is_valid(&value));
+        assert_eq!(handle.as_str(), stored);
+        assert_eq!(<XHandle as ScalarType>::to_value(&handle), value!(stored));
+        assert_eq!(<XHandle as InputType>::to_value(&handle), value!(stored));
+        assert_eq!(handle.encode_cursor(), stored);
+        assert_eq!(XHandle::decode_cursor(&handle.encode_cursor()), Ok(handle));
+    }
+}
+
+#[test]
+fn test_rejects_invalid_handles_and_cursors() {
     for text in [
-        "Some_User",
-        "@User",
         "",
+        "@",
+        "@@User",
         " bj%C3%B6rn ",
         "literal%20handle",
         "björn",
+        "a".repeat(16).as_str(),
     ] {
         let value = Value::String(text.into());
-        let handle = <XHandle as InputType>::parse(Some(value.clone())).expect("valid string");
-        assert!(<XHandle as ScalarType>::is_valid(&value));
-        assert_eq!(handle, XHandle::from(text));
-        assert_eq!(<XHandle as ScalarType>::to_value(&handle), value);
-        assert_eq!(<XHandle as InputType>::to_value(&handle), value);
-        assert_eq!(handle.encode_cursor(), text);
-        assert_eq!(XHandle::decode_cursor(&handle.encode_cursor()), Ok(handle));
+        assert!(!<XHandle as ScalarType>::is_valid(&value));
+        assert!(<XHandle as InputType>::parse(Some(value)).is_err());
+        assert!(XHandle::decode_cursor(text).is_err());
     }
 }
 
@@ -146,7 +162,17 @@ fn test_query_literals_variables_and_input_objects() {
 fn test_invalid_query_inputs() {
     futures_executor::block_on(async {
         let schema = Schema::new(Query, EmptyMutation, EmptySubscription);
-        for literal in ["42", "1.5", "true", "null", "Some_User", "[]", "{}"] {
+        for literal in [
+            "42",
+            "1.5",
+            "true",
+            "null",
+            "Some_User",
+            "[]",
+            "{}",
+            r#""""#,
+            r#""bad-handle""#,
+        ] {
             let response = schema
                 .execute(format!("{{ handle(input: {literal}) }}"))
                 .await;
@@ -158,6 +184,8 @@ fn test_invalid_query_inputs() {
             Value::Null,
             value!([]),
             value!({}),
+            value!(""),
+            value!("@@User"),
         ] {
             let response = schema
                 .execute(
@@ -191,5 +219,9 @@ fn test_connection_query() {
                 },
             })
         );
+        let response = schema
+            .execute(r#"{ handleConnection(after: "bad-handle") { edges { cursor } } }"#)
+            .await;
+        assert!(!response.errors.is_empty());
     });
 }

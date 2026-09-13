@@ -36,12 +36,8 @@ sqlx-postgres = ["sqlx", "sqlx/postgres"]
 sqlx-sqlite = ["sqlx", "sqlx/sqlite"]
 
 [dependencies]
-derive_more = { workspace = true, features = [
-    "as_ref",
-    "display",
-    "from",
-    "from_str",
-] }
+known-types = { workspace = true }
+derive_more = { workspace = true, features = ["as_ref", "display"] }
 
 # Interoperability:
 async-graphql = { workspace = true, optional = true }

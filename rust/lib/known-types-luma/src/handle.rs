@@ -4,48 +4,41 @@
 compile_error!("this module requires the 'alloc' feature");
 
 use alloc::string::String;
-use derive_more::{AsRef, Display, From, FromStr};
+use core::str::FromStr;
+use derive_more::{AsRef, Display};
+pub use known_types::handle::ParseHandleError;
+use known_types::handle::validate_length;
 
 /// A Luma handle (aka username).
 ///
+/// Uses the fallback length range of 1–100 Unicode scalar values. No more
+/// specific upstream syntax or case-normalization contract is known, so
+/// spelling is preserved and comparisons are case-sensitive.
+///
 /// With the `async-graphql` feature, this is a string scalar named `LumaHandle`
 /// implementing `ScalarType`, `InputType`, `OutputType`, and `CursorType`.
-/// Cursors preserve the stored string verbatim.
-#[derive(AsRef, Clone, Debug, Display, Eq, From, FromStr, Hash, Ord, PartialEq, PartialOrd)]
-#[from(forward)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[cfg_attr(feature = "sqlx", derive(sqlx::Type))]
-#[cfg_attr(feature = "sqlx", sqlx(transparent))]
+/// All input, including cursors, is validated using `FromStr`.
+#[derive(AsRef, Clone, Debug, Display, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct LumaHandle(String);
 
-#[cfg(feature = "async-graphql")]
-#[async_graphql::Scalar(name = "LumaHandle")]
-impl async_graphql::ScalarType for LumaHandle {
-    fn parse(value: async_graphql::Value) -> async_graphql::InputValueResult<Self> {
-        match value {
-            async_graphql::Value::String(value) => Ok(Self(value)),
-            value => Err(async_graphql::InputValueError::expected_type(value)),
-        }
-    }
+known_types::impl_handle!(LumaHandle, 1, 100, "LumaHandle");
 
-    fn is_valid(value: &async_graphql::Value) -> bool {
-        matches!(value, async_graphql::Value::String(_))
-    }
+impl FromStr for LumaHandle {
+    type Err = ParseHandleError;
 
-    fn to_value(&self) -> async_graphql::Value {
-        async_graphql::Value::String(self.0.clone())
+    fn from_str(input: &str) -> Result<Self, Self::Err> {
+        validate_length(input, Self::MIN_LENGTH, Self::MAX_LENGTH)?;
+        Ok(Self(input.into()))
     }
 }
 
-#[cfg(feature = "async-graphql")]
-impl async_graphql::connection::CursorType for LumaHandle {
-    type Error = core::convert::Infallible;
-
-    fn decode_cursor(input: &str) -> Result<Self, Self::Error> {
-        Ok(Self::from(input))
-    }
-
-    fn encode_cursor(&self) -> String {
-        self.0.clone()
-    }
+#[test]
+fn test_luma_fallback_bounds_and_case() {
+    let input = "É".repeat(100);
+    assert_eq!(
+        input.parse::<LumaHandle>().expect("valid handle").as_str(),
+        input
+    );
+    assert!("É".repeat(101).parse::<LumaHandle>().is_err());
+    assert_ne!("Alice".parse::<LumaHandle>(), "alice".parse::<LumaHandle>());
 }

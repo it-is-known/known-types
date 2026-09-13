@@ -27,8 +27,8 @@ fn test_query_input_normalization() {
         for (input, stored) in [
             ("foobar", "foobar"),
             (" bj%C3%B6rn ", "björn"),
-            ("literal%2520handle", "literal%20handle"),
-            ("%20handle%20", " handle "),
+            ("John%2dSmith", "John-Smith"),
+            ("%E6%9D%8E%E5%B0%8F%E9%BE%8D", "李小龍"),
         ] {
             assert!(<LinkedinHandle as ScalarType>::is_valid(&Value::String(
                 input.into()
@@ -58,6 +58,13 @@ fn test_invalid_inputs_return_errors() {
             Value::String(" \t\n ".into()),
             Value::String("%FF".into()),
             Value::String("%C3%28".into()),
+            value!("literal%2520handle"),
+            value!("%20handle%20"),
+            value!("abc%"),
+            value!("abc%GG"),
+            value!("abc%2Fdef"),
+            value!("ab"),
+            value!("a".repeat(101)),
             Value::Null,
             value!(42),
             value!(true),
@@ -88,16 +95,25 @@ fn test_invalid_inputs_return_errors() {
 fn test_cursors_preserve_normalized_handles() {
     for (input, stored) in [
         (" bj%C3%B6rn ", "björn"),
-        ("literal%2520handle", "literal%20handle"),
-        ("%20handle%20", " handle "),
-        ("%20", " "),
-        ("%25FF", "%FF"),
+        ("John%2DSmith", "John-Smith"),
+        ("Bj%C3%96rn", "BjÖrn"),
     ] {
-        let handle = LinkedinHandle::from(input);
+        let handle = LinkedinHandle::try_from(input).expect("valid handle");
         assert_eq!(handle.encode_cursor(), stored);
         assert_eq!(
             LinkedinHandle::decode_cursor(&handle.encode_cursor()),
             Ok(handle)
         );
+    }
+    for input in [
+        "",
+        "ab",
+        "%20",
+        "%25FF",
+        "literal%2520handle",
+        "abc%2fdef",
+        "abc%FF",
+    ] {
+        assert!(LinkedinHandle::decode_cursor(input).is_err());
     }
 }

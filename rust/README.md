@@ -167,6 +167,75 @@ use known_types_x;
 
 </details>
 
+### Validated social media handles
+
+Construct handles with `FromStr` or `TryFrom<&str>` / `TryFrom<String>`. All
+construction and decoding paths validate the same constraints and return
+`ParseHandleError` on invalid input. The inner string is private; `as_str()`
+borrows it and `into_string()` consumes the handle to recover its stored spelling.
+`MIN_LENGTH` and `MAX_LENGTH` expose each type's inclusive length bounds.
+
+```rust
+use known_types_x::{ParseHandleError, XHandle};
+
+fn main() -> Result<(), ParseHandleError> {
+    let handle: XHandle = "@PlayItAgainSam".parse()?;
+    assert_eq!(handle.as_str(), "PlayItAgainSam");
+    assert_eq!(handle, "playitagainsam".parse::<XHandle>()?);
+    assert!("not a handle".parse::<XHandle>().is_err());
+    Ok(())
+}
+```
+
+Platform | Length | Syntax and parsing | Comparison
+:--- | :--- | :--- | :---
+Facebook | 5–50 | ASCII letters/digits and periods; at least 5 alphanumeric characters; optional `@` | Ignores case and periods; preserves spelling
+GitHub | 1–39 | ASCII letters/digits and single interior hyphens; managed users may have an `_shortcode` suffix (3–8 alphanumeric characters); optional `@` | Ignores case; preserves spelling
+Gravatar | 4–60 | WordPress.com username: ASCII letters/digits, including a letter; lowercased | Ignores case
+Instagram | 1–30 | ASCII letters/digits, `_`, `.`; no leading/trailing/consecutive periods; optional `@`; lowercased | Ignores case
+Intro.co | 1–100 | Fallback length bounds | Case-sensitive; preserves spelling
+LinkedIn | 3–100 | Unicode letters/numbers and `-`; outer whitespace trimmed; percent-decoded before validation | Unicode case-insensitive; preserves spelling
+local.ai | 1–100 | Fallback length bounds | Case-sensitive; preserves spelling
+Luma | 1–100 | Fallback length bounds | Case-sensitive; preserves spelling
+Telegram | 4–32 | ASCII letters/digits and `_`; initial letter, final letter/digit; optional `@` | Ignores case; preserves spelling
+WhatsApp | 3–35 | ASCII letters/digits, `_`, `.`; initial letter; no leading/trailing/consecutive periods, `www.` prefix, or `.com`/`.net` suffix; optional `@`; lowercased | Ignores case
+X | 1–15 | ASCII letters/digits and `_`; optional `@` | Ignores case; preserves spelling
+
+The bounds describe handle syntax, including existing short X handles and
+four-character Telegram collectibles. Account availability, ownership, and
+registration-only reserved names are determined by the upstream. The fallback
+types apply the requested 1–100 bounds where a more specific upstream contract
+is not known. Length is measured in Unicode scalar values after normalization;
+an optional `@` is removed exactly once on platforms that display it.
+
+Case-insensitive handles use consistent `Eq`, `Ord`, and `Hash` implementations,
+so hash maps and ordered collections agree about identity. Case-preserving
+parsers keep the supplied spelling; they do not look up the account's canonical
+capitalization.
+
+LinkedIn accepts both `björn` and `bj%C3%B6rn`, storing `björn`. It rejects
+malformed percent escapes, invalid UTF-8, and decoded forbidden characters such
+as spaces, slashes, and literal percent signs. Escapes are decoded once:
+`literal%2520handle` is rejected rather than decoded repeatedly. Stored handles
+round-trip through parsing and every enabled integration.
+
+This replaces the previous infallible (or panicking, for LinkedIn) `From`
+conversions. Change `Handle::from(text)` / `text.into()` to `text.parse()?` or
+`Handle::try_from(text)?`. Serde, GraphQL scalar/cursor input, and SQLx decoding
+now report invalid handles as errors.
+
+Upstream references: [Facebook](https://www.facebook.com/help/105399436216001),
+[GitHub](https://docs.github.com/en/enterprise-cloud@latest/admin/managing-iam/iam-configuration-reference/username-considerations-for-external-authentication),
+[Gravatar](https://support.gravatar.com/custom-domains/change-your-profile-url/),
+[WordPress username validation](https://developer.wordpress.org/reference/functions/wpmu_validate_user_signup/),
+[Instagram rules](https://www.handlegrab.com/blog/instagram-username-rules),
+[LinkedIn](https://www.linkedin.com/help/linkedin/answer/a542685/manage-your-public-profile-url),
+[Telegram](https://core.telegram.org/method/account.checkUsername),
+[Telegram collectibles](https://core.telegram.org/api/fragment),
+[WhatsApp](https://www.whatsapp.com/usernames-faq/),
+[WhatsApp format rules](https://pickmyhandle.com/blog/whatsapp-username-rules),
+and [X](https://help.x.com/en/managing-your-account/x-username-rules).
+
 ### Using handles with async-graphql
 
 All handle crates support [async-graphql] 7.2 through the optional `async-graphql`
@@ -213,18 +282,16 @@ Each handle has its own scalar name matching its Rust type: `XHandle`,
 `FacebookHandle`, `GithubHandle`, `GravatarHandle`, `InstagramHandle`,
 `IntrocoHandle`, `LinkedinHandle`, `LocalaiHandle`, `LumaHandle`, `TelegramHandle`,
 and `WhatsappHandle`. Scalars accept only GraphQL strings and serialize to
-strings. `LinkedinHandle` input uses its existing `FromStr` validation and
-normalization (trimming whitespace and percent-decoding UTF-8); invalid input
-returns a GraphQL input error. The other handles preserve their input verbatim.
+strings. All handle inputs use `FromStr` validation and normalization as described
+above; invalid input returns a GraphQL input error.
 
 #### Handles as connection cursors
 
 All handles implement `connection::CursorType` under the same feature, so they
 can be used directly in `Connection<Handle, Node>` and `Edge<Handle, Node>`.
-Like async-graphql's `String` cursors, they encode the stored string verbatim and
-decode infallibly. This preserves `XHandle`'s existing cursor format and ensures
-that already-normalized LinkedIn handles round-trip without double-decoding
-percent escapes or trimming meaningful whitespace.
+They encode the stored string verbatim and validate it with `FromStr` when
+decoding, returning `ParseHandleError` for invalid cursors. Valid stored handles
+round-trip without changing their spelling, including decoded LinkedIn handles.
 
 Handle cursors are appropriate when the handle is the unique ordering key for
 the connection. The application supplies deterministic pagination ordering and
@@ -237,7 +304,7 @@ All handle crates support [SQLx] 0.9 through optional features:
 
 Feature | Effect
 :--- | :---
-`sqlx` | Implements `sqlx::{Type, Encode, Decode}` transparently over `String`; enables `std`.
+`sqlx` | Implements `sqlx::{Type, Encode, Decode}` over `String`, validating on decode; enables `std`.
 `sqlx-postgres` | Enables `sqlx` and the PostgreSQL driver, including PostgreSQL array support.
 `sqlx-mysql` | Enables `sqlx` and the MySQL driver.
 `sqlx-sqlite` | Enables `sqlx` and the SQLite driver.
@@ -263,8 +330,8 @@ async fn round_trip(pool: &sqlx::PgPool, handle: &XHandle) -> Result<XHandle, sq
 
 Handles can be bound by value or reference, decoded from string columns, and
 wrapped in `Option` for nullable columns. PostgreSQL also supports `Vec<Handle>`
-for text arrays. Decoding preserves the stored string without parsing or
-normalizing it again.
+for text arrays with `sqlx-postgres`. Decoding validates and normalizes database
+text using `FromStr`; invalid text returns a SQLx column decoding error.
 
 The same features are available for `FacebookHandle`, `GithubHandle`,
 `GravatarHandle`, `InstagramHandle`, `IntrocoHandle`, `LinkedinHandle`,

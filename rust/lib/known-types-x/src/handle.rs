@@ -4,52 +4,46 @@
 compile_error!("this module requires the 'alloc' feature");
 
 use alloc::string::String;
-use derive_more::{AsRef, Display, From, FromStr};
+use core::str::FromStr;
+use derive_more::{AsRef, Display};
+pub use known_types::handle::ParseHandleError;
+use known_types::handle::{validate_ascii, validate_length};
 
 /// An X handle (aka username).
 ///
+/// Contains 1–15 ASCII letters, digits, or underscores. The minimum includes
+/// existing short handles, even though new registrations have a higher minimum.
+/// Parsing drops one optional `@`. Spelling is preserved, while equality,
+/// ordering, and hashing ignore ASCII case.
+///
+/// See <https://help.x.com/en/managing-your-account/x-username-rules>.
+///
 /// With the `async-graphql` feature, this is a string scalar named `XHandle`
 /// implementing `ScalarType`, `InputType`, `OutputType`, and `CursorType`.
-/// Cursors preserve the stored string verbatim.
+/// All input, including cursors, is validated using `FromStr`.
 ///
 /// With the `sqlx` feature, this implements SQLx's `Type`, `Encode`, and
-/// `Decode` traits transparently over `String`.
-#[derive(AsRef, Clone, Debug, Display, Eq, From, FromStr, Hash, Ord, PartialEq, PartialOrd)]
-#[from(forward)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[cfg_attr(feature = "sqlx", derive(sqlx::Type))]
-#[cfg_attr(feature = "sqlx", sqlx(transparent))]
+/// `Decode` traits over `String`, validating on decode.
+#[derive(AsRef, Clone, Debug, Display, Eq)]
 pub struct XHandle(String);
 
-#[cfg(feature = "async-graphql")]
-#[async_graphql::Scalar(name = "XHandle")]
-impl async_graphql::ScalarType for XHandle {
-    fn parse(value: async_graphql::Value) -> async_graphql::InputValueResult<Self> {
-        match value {
-            async_graphql::Value::String(value) => Ok(Self(value)),
-            value => Err(async_graphql::InputValueError::expected_type(value)),
-        }
-    }
+known_types::impl_handle!(XHandle, 1, 15, "XHandle");
+known_types::impl_handle_comparison!(XHandle);
 
-    fn is_valid(value: &async_graphql::Value) -> bool {
-        matches!(value, async_graphql::Value::String(_))
-    }
-
-    fn to_value(&self) -> async_graphql::Value {
-        async_graphql::Value::String(self.0.clone())
+impl XHandle {
+    fn comparison_key(&self) -> unicase::Ascii<&str> {
+        unicase::Ascii::new(self.as_str())
     }
 }
 
-#[cfg(feature = "async-graphql")]
-impl async_graphql::connection::CursorType for XHandle {
-    type Error = core::convert::Infallible;
+impl FromStr for XHandle {
+    type Err = ParseHandleError;
 
-    fn decode_cursor(input: &str) -> Result<Self, Self::Error> {
-        Ok(Self::from(input))
-    }
-
-    fn encode_cursor(&self) -> String {
-        self.0.clone()
+    fn from_str(input: &str) -> Result<Self, Self::Err> {
+        let input = input.strip_prefix('@').unwrap_or(input);
+        validate_length(input, Self::MIN_LENGTH, Self::MAX_LENGTH)?;
+        validate_ascii(input, "_")?;
+        Ok(Self(input.into()))
     }
 }
 
@@ -64,5 +58,37 @@ impl Into<libsql::Value> for XHandle {
 impl Into<libsql::Value> for &XHandle {
     fn into(self) -> libsql::Value {
         libsql::Value::Text(self.0.clone())
+    }
+}
+
+#[test]
+fn test_x_handle_syntax() {
+    for (input, stored) in [
+        ("@PlayItAgainSam", "PlayItAgainSam"),
+        ("@a", "a"),
+        ("_", "_"),
+        ("123", "123"),
+        ("@_Some_User_", "_Some_User_"),
+        ("abcdefghijklmno", "abcdefghijklmno"),
+    ] {
+        assert_eq!(
+            input.parse::<XHandle>().expect("valid handle").as_str(),
+            stored
+        );
+    }
+    for input in [
+        "@",
+        "@@alice",
+        "alice@",
+        " alice",
+        "alice ",
+        "a-b",
+        "a.b",
+        "a/b",
+        "a\0b",
+        "álîce",
+        "abcdefghijklmnop",
+    ] {
+        assert!(input.parse::<XHandle>().is_err(), "accepted {input:?}");
     }
 }

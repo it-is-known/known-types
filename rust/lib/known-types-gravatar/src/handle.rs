@@ -4,48 +4,59 @@
 compile_error!("this module requires the 'alloc' feature");
 
 use alloc::string::String;
-use derive_more::{AsRef, Display, From, FromStr};
+use core::str::FromStr;
+use derive_more::{AsRef, Display};
+pub use known_types::handle::ParseHandleError;
+use known_types::handle::{validate_ascii, validate_length};
 
 /// A Gravatar handle (aka username).
 ///
+/// Gravatar shares WordPress.com usernames: 4–60 ASCII letters or digits,
+/// including at least one letter. Parsing normalizes to lowercase.
+///
+/// See <https://support.gravatar.com/custom-domains/change-your-profile-url/>
+/// and <https://developer.wordpress.org/reference/functions/wpmu_validate_user_signup/>.
+///
 /// With the `async-graphql` feature, this is a string scalar named `GravatarHandle`
 /// implementing `ScalarType`, `InputType`, `OutputType`, and `CursorType`.
-/// Cursors preserve the stored string verbatim.
-#[derive(AsRef, Clone, Debug, Display, Eq, From, FromStr, Hash, Ord, PartialEq, PartialOrd)]
-#[from(forward)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[cfg_attr(feature = "sqlx", derive(sqlx::Type))]
-#[cfg_attr(feature = "sqlx", sqlx(transparent))]
+/// All input, including cursors, is validated using `FromStr`.
+#[derive(AsRef, Clone, Debug, Display, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct GravatarHandle(String);
 
-#[cfg(feature = "async-graphql")]
-#[async_graphql::Scalar(name = "GravatarHandle")]
-impl async_graphql::ScalarType for GravatarHandle {
-    fn parse(value: async_graphql::Value) -> async_graphql::InputValueResult<Self> {
-        match value {
-            async_graphql::Value::String(value) => Ok(Self(value)),
-            value => Err(async_graphql::InputValueError::expected_type(value)),
+known_types::impl_handle!(GravatarHandle, 4, 60, "GravatarHandle");
+
+impl FromStr for GravatarHandle {
+    type Err = ParseHandleError;
+
+    fn from_str(input: &str) -> Result<Self, Self::Err> {
+        validate_length(input, Self::MIN_LENGTH, Self::MAX_LENGTH)?;
+        validate_ascii(input, "")?;
+        if !input.bytes().any(|c| c.is_ascii_alphabetic()) {
+            return Err(ParseHandleError::InvalidFormat);
         }
-    }
-
-    fn is_valid(value: &async_graphql::Value) -> bool {
-        matches!(value, async_graphql::Value::String(_))
-    }
-
-    fn to_value(&self) -> async_graphql::Value {
-        async_graphql::Value::String(self.0.clone())
+        Ok(Self(input.to_ascii_lowercase()))
     }
 }
 
-#[cfg(feature = "async-graphql")]
-impl async_graphql::connection::CursorType for GravatarHandle {
-    type Error = core::convert::Infallible;
-
-    fn decode_cursor(input: &str) -> Result<Self, Self::Error> {
-        Ok(Self::from(input))
-    }
-
-    fn encode_cursor(&self) -> String {
-        self.0.clone()
+#[test]
+fn test_gravatar_handle_syntax_and_normalization() {
+    let handle: GravatarHandle = "Alice123".parse().expect("valid handle");
+    assert_eq!(handle.as_str(), "alice123");
+    assert_eq!(handle, "ALICE123".parse().expect("valid handle"));
+    for input in [
+        "abc",
+        "1234",
+        "@alice",
+        "alice_smith",
+        "alice-smith",
+        "alice.smith",
+        "alice smith",
+        "álîce",
+        "alice\n",
+    ] {
+        assert!(
+            input.parse::<GravatarHandle>().is_err(),
+            "accepted {input:?}"
+        );
     }
 }

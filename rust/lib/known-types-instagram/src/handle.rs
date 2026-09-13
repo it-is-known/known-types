@@ -4,48 +4,68 @@
 compile_error!("this module requires the 'alloc' feature");
 
 use alloc::string::String;
-use derive_more::{AsRef, Display, From, FromStr};
+use core::str::FromStr;
+use derive_more::{AsRef, Display};
+pub use known_types::handle::ParseHandleError;
+use known_types::handle::{validate_ascii, validate_length};
 
 /// An Instagram handle (aka username).
 ///
+/// Contains 1–30 ASCII letters, digits, periods, or underscores. Periods cannot
+/// be leading, trailing, or consecutive. Parsing drops one optional `@` and
+/// normalizes to lowercase, as Instagram does.
+///
 /// With the `async-graphql` feature, this is a string scalar named `InstagramHandle`
 /// implementing `ScalarType`, `InputType`, `OutputType`, and `CursorType`.
-/// Cursors preserve the stored string verbatim.
-#[derive(AsRef, Clone, Debug, Display, Eq, From, FromStr, Hash, Ord, PartialEq, PartialOrd)]
-#[from(forward)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[cfg_attr(feature = "sqlx", derive(sqlx::Type))]
-#[cfg_attr(feature = "sqlx", sqlx(transparent))]
+/// All input, including cursors, is validated using `FromStr`.
+#[derive(AsRef, Clone, Debug, Display, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct InstagramHandle(String);
 
-#[cfg(feature = "async-graphql")]
-#[async_graphql::Scalar(name = "InstagramHandle")]
-impl async_graphql::ScalarType for InstagramHandle {
-    fn parse(value: async_graphql::Value) -> async_graphql::InputValueResult<Self> {
-        match value {
-            async_graphql::Value::String(value) => Ok(Self(value)),
-            value => Err(async_graphql::InputValueError::expected_type(value)),
+known_types::impl_handle!(InstagramHandle, 1, 30, "InstagramHandle");
+
+impl FromStr for InstagramHandle {
+    type Err = ParseHandleError;
+
+    fn from_str(input: &str) -> Result<Self, Self::Err> {
+        let input = input.strip_prefix('@').unwrap_or(input);
+        validate_length(input, Self::MIN_LENGTH, Self::MAX_LENGTH)?;
+        validate_ascii(input, "._")?;
+        if input.starts_with('.') || input.ends_with('.') || input.contains("..") {
+            return Err(ParseHandleError::InvalidFormat);
         }
-    }
-
-    fn is_valid(value: &async_graphql::Value) -> bool {
-        matches!(value, async_graphql::Value::String(_))
-    }
-
-    fn to_value(&self) -> async_graphql::Value {
-        async_graphql::Value::String(self.0.clone())
+        Ok(Self(input.to_ascii_lowercase()))
     }
 }
 
-#[cfg(feature = "async-graphql")]
-impl async_graphql::connection::CursorType for InstagramHandle {
-    type Error = core::convert::Infallible;
-
-    fn decode_cursor(input: &str) -> Result<Self, Self::Error> {
-        Ok(Self::from(input))
+#[test]
+fn test_instagram_handle_syntax_and_normalization() {
+    for (input, stored) in [("@Alice.Smith_", "alice.smith_"), ("_A", "_a"), ("1", "1")] {
+        assert_eq!(
+            input
+                .parse::<InstagramHandle>()
+                .expect("valid handle")
+                .as_str(),
+            stored
+        );
     }
-
-    fn encode_cursor(&self) -> String {
-        self.0.clone()
+    assert_eq!(
+        "Alice".parse::<InstagramHandle>(),
+        "ALICE".parse::<InstagramHandle>()
+    );
+    for input in [
+        "@",
+        "@@alice",
+        ".alice",
+        "alice.",
+        "al..ice",
+        "alice-smith",
+        "alice smith",
+        "álîce",
+        "alice\n",
+    ] {
+        assert!(
+            input.parse::<InstagramHandle>().is_err(),
+            "accepted {input:?}"
+        );
     }
 }
