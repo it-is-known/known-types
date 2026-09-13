@@ -1,7 +1,7 @@
 # Known Types
 
 [![License](https://img.shields.io/badge/license-Public%20Domain-blue.svg)](https://unlicense.org)
-[![Compatibility](https://img.shields.io/badge/rust-1.85%2B-blue)](https://blog.rust-lang.org/2025/02/20/Rust-1.85.0/)
+[![Compatibility](https://img.shields.io/badge/rust-1.94%2B-blue)](https://blog.rust-lang.org/2026/03/05/Rust-1.94.0/)
 [![Package](https://img.shields.io/crates/v/known-types)](https://crates.io/crates/known-types)
 [![Documentation](https://docs.rs/known-types/badge.svg)](https://docs.rs/known-types)
 
@@ -27,7 +27,7 @@
 
 ## 🛠️ Prerequisites
 
-- [Rust] 1.85+ (2024 edition)
+- [Rust] 1.94+ (2024 edition)
 
 ## ⬇️ Installation
 

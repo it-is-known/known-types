@@ -1,6 +1,6 @@
 # Rust workspace
 
-Stay within this directory and its descendants; run Cargo here. Rust 2024
+Stay within this directory and its descendants; run Cargo here. Rust 2024 (MSRV 1.94)
 workspace: `lib/*` are crates; root `Cargo.toml` owns shared versions/dependencies.
 `known-types` is shared core, not an umbrella re-export. Several crates are
 scaffolds: inspect `src/lib.rs` exports before assuming an API exists.
@@ -32,7 +32,8 @@ scaffolds: inspect `src/lib.rs` exports before assuming an API exists.
   validates. Stored handles must parse and round-trip without changing spelling.
 - Put contracts, examples and upstream references in module/type rustdoc.
   Prefer shortening/correcting README; additions need exceptional value.
-  Record public API/behavior changes in `CHANGES.md`.
+  Record public API/behavior changes in `CHANGES.md` when scope permits:
+  it symlinks to the parent project.
 
 ## OpenAI generation
 
@@ -49,6 +50,7 @@ Replace `CRATE` with the affected package. Start with `cargo test -p CRATE --loc
 run `cargo clippy -p CRATE --locked --all-targets -- -D warnings`, enabling changed
 integrations. Check each affected crate with defaults disabled, with `alloc`, and
 with each changed feature independently; feature unification can hide mistakes.
+For MSRV or dependency changes, also verify with `cargo +1.94.0`.
 
 For shared handle changes, test all callers:
 
