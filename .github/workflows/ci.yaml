@@ -93,7 +93,7 @@ jobs:
         id: install-rust
         uses: dtolnay/rust-toolchain@master
         with:
-          toolchain: 1.85.0
+          toolchain: 1.94.0
           components: rustfmt
       - name: Build library (default features)
         if: ${{ always() }}
